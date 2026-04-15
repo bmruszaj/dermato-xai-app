@@ -13,9 +13,14 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Allow annotation routes without authentication
+  if (pathname.startsWith("/annotate") || pathname.startsWith("/api/predict") || pathname.startsWith("/api/feedback")) {
+    return NextResponse.next();
+  }
+
   const token = await getToken({
     req: request,
-    secret: process.env.AUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET,
     secureCookie: !isDevelopmentEnvironment,
   });
 

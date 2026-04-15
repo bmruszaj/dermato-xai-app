@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "ES2019", // modern JS, fine for bundlers
+        "module": "ESNext", // emit ES modules
+        "moduleResolution": "node",
+        "jsx": "react-jsx", // React 17+/18 JSX transform
+        "lib": ["dom", "dom.iterable", "esnext"],
+
+        "declaration": true, // emit .d.ts
+        "declarationMap": true, // nicer type debugging
+        "sourceMap": true,
+        "outDir": "./dist",
+        "removeComments": true,
+
+        // You can turn these on gradually if your code isn't ready yet:
+        "strict": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+
+        "baseUrl": "./src"
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "dist", "__tests__"]
+}
