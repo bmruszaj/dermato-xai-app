@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { getClarinFeedback } from "@/lib/annotate/clarin-feedback";
 import { buildFeedbackPrompt } from "@/lib/annotate/prompt";
 import type { ComparisonResult } from "@/lib/annotate/types";

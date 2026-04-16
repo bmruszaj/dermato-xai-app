@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 // Allow up to 5 minutes — model cold-start can be slow
 export const maxDuration = 300;

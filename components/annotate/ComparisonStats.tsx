@@ -26,28 +26,28 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
       {/* Summary row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <StatCard
-          value={matched.length}
-          label="Dopasowane"
-          color="text-green-600 dark:text-green-400"
           bg="bg-green-500/10"
+          color="text-green-600 dark:text-green-400"
+          label="Dopasowane"
+          value={matched.length}
         />
         <StatCard
-          value={userOnlyYellow.length}
-          label="Tylko użytkownik"
-          color="text-orange-600 dark:text-orange-400"
           bg="bg-orange-500/10"
+          color="text-orange-600 dark:text-orange-400"
+          label="Tylko użytkownik"
+          value={userOnlyYellow.length}
         />
         <StatCard
-          value={modelOnlyYellow.length}
-          label="Tylko model"
-          color="text-red-600 dark:text-red-400"
           bg="bg-red-500/10"
+          color="text-red-600 dark:text-red-400"
+          label="Tylko model"
+          value={modelOnlyYellow.length}
         />
         <StatCard
-          value={otherUserAnnotations.length}
-          label="Inne klasy"
-          color="text-blue-600 dark:text-blue-400"
           bg="bg-blue-500/10"
+          color="text-blue-600 dark:text-blue-400"
+          label="Inne klasy"
+          value={otherUserAnnotations.length}
         />
       </div>
 
@@ -101,7 +101,7 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
               </thead>
               <tbody className="divide-y divide-border">
                 {matched.map((m, i) => (
-                  <tr key={`match-${i}`} className="bg-background">
+                  <tr className="bg-background" key={`match-${i}`}>
                     <td className="px-3 py-1.5 text-muted-foreground">
                       {i + 1}
                     </td>
@@ -139,7 +139,7 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
               </thead>
               <tbody className="divide-y divide-border">
                 {userOnlyYellow.map((b, i) => (
-                  <tr key={`user-only-${i}`} className="bg-background">
+                  <tr className="bg-background" key={`user-only-${i}`}>
                     <td className="px-3 py-1.5 text-muted-foreground">
                       {i + 1}
                     </td>
@@ -183,7 +183,7 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
               </thead>
               <tbody className="divide-y divide-border">
                 {modelOnlyYellow.map((p, i) => (
-                  <tr key={`model-only-${i}`} className="bg-background">
+                  <tr className="bg-background" key={`model-only-${i}`}>
                     <td className="px-3 py-1.5 text-muted-foreground">
                       {i + 1}
                     </td>

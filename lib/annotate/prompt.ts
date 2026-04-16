@@ -11,8 +11,7 @@ function countByLabel(result: ComparisonResult): Record<string, number> {
   }
 
   // Yellow globules: matched + userOnly
-  counts[MODEL_CLASS] =
-    result.matched.length + result.userOnlyYellow.length;
+  counts[MODEL_CLASS] = result.matched.length + result.userOnlyYellow.length;
 
   // Other classes
   for (const box of result.otherUserAnnotations) {
@@ -37,7 +36,7 @@ export function buildFeedbackPrompt(result: ComparisonResult): string {
   const totalModel = result.matched.length + result.modelOnlyYellow.length;
 
   const labelLines = ANNOTATION_LABELS.map(
-    (label) => `  - ${label}: ${counts[label]} adnotacje`,
+    (label) => `  - ${label}: ${counts[label]} adnotacje`
   ).join("\n");
 
   const matchedLines =
@@ -45,7 +44,7 @@ export function buildFeedbackPrompt(result: ComparisonResult): string {
       ? result.matched
           .map(
             (m, i) =>
-              `  ${i + 1}. Pole użytkownika pokrywa się z detekcją modelu (IoU = ${(m.iou * 100).toFixed(1)}%, pewność modelu = ${(m.modelBox.confidence * 100).toFixed(1)}%)`,
+              `  ${i + 1}. Pole użytkownika pokrywa się z detekcją modelu (IoU = ${(m.iou * 100).toFixed(1)}%, pewność modelu = ${(m.modelBox.confidence * 100).toFixed(1)}%)`
           )
           .join("\n")
       : "  Brak dopasowań.";
@@ -55,7 +54,7 @@ export function buildFeedbackPrompt(result: ComparisonResult): string {
       ? result.userOnlyYellow
           .map(
             (_, i) =>
-              `  ${i + 1}. Użytkownik zaznaczył "${MODEL_CLASS}", ale model nie wykrył tam zmiany.`,
+              `  ${i + 1}. Użytkownik zaznaczył "${MODEL_CLASS}", ale model nie wykrył tam zmiany.`
           )
           .join("\n")
       : "  Brak.";
@@ -65,7 +64,7 @@ export function buildFeedbackPrompt(result: ComparisonResult): string {
       ? result.modelOnlyYellow
           .map(
             (p, i) =>
-              `  ${i + 1}. Model wykrył zmianę z pewnością ${(p.confidence * 100).toFixed(1)}%, ale użytkownik jej nie zaznaczył.`,
+              `  ${i + 1}. Model wykrył zmianę z pewnością ${(p.confidence * 100).toFixed(1)}%, ale użytkownik jej nie zaznaczył.`
           )
           .join("\n")
       : "  Brak.";

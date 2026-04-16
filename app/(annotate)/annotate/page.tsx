@@ -1,11 +1,12 @@
 "use client";
 
+import { signOut, useSession } from "next-auth/react";
 import React, { useCallback, useRef, useState } from "react";
-import { useSession, signOut } from "next-auth/react";
-import { UploadZone } from "@/components/annotate/UploadZone";
-import { AnnotationCanvas } from "@/components/annotate/AnnotationCanvas";
 import type { AnnotatorHandle } from "@/components/annotate/AnnotationCanvas";
+import { AnnotationCanvas } from "@/components/annotate/AnnotationCanvas";
+import type { EntryType } from "@/components/annotate/BBoxAnnotator";
 import { FeedbackPanel } from "@/components/annotate/FeedbackPanel";
+import { UploadZone } from "@/components/annotate/UploadZone";
 import { compareAnnotations } from "@/lib/annotate/compare";
 import type {
   AnnotationBox,
@@ -13,7 +14,6 @@ import type {
   ComparisonResult,
   ModelPrediction,
 } from "@/lib/annotate/types";
-import type { EntryType } from "@/components/annotate/BBoxAnnotator";
 
 type MlStatus = "idle" | "loading" | "done" | "error";
 
@@ -62,8 +62,8 @@ function MlStatusBadge({
           />
           <path
             className="opacity-75"
-            fill="currentColor"
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            fill="currentColor"
           />
         </svg>
       )}
@@ -297,9 +297,9 @@ export default function AnnotatePage() {
                   {session.user.email}
                 </span>
                 <button
-                  type="button"
-                  onClick={() => signOut({ callbackUrl: "/login" })}
                   className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  onClick={() => signOut({ callbackUrl: "/login" })}
+                  type="button"
                 >
                   Wyloguj
                 </button>
@@ -333,8 +333,8 @@ export default function AnnotatePage() {
                   "Yellow globlues (ulcer)",
                 ].map((label) => (
                   <span
-                    key={label}
                     className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground"
+                    key={label}
                   >
                     {label}
                   </span>
@@ -356,8 +356,8 @@ export default function AnnotatePage() {
                 </p>
               </div>
               <MlStatusBadge
-                status={mlStatus}
                 predCount={mlPredictions.length}
+                status={mlStatus}
               />
             </div>
 
@@ -377,17 +377,17 @@ export default function AnnotatePage() {
               </div>
               <div className="flex gap-3">
                 <button
-                  type="button"
-                  onClick={handleRetry}
                   className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                  onClick={handleRetry}
+                  type="button"
                 >
                   Zmień obraz
                 </button>
                 <button
-                  type="button"
-                  onClick={handleSubmit}
-                  disabled={submitting || userAnnotations.length === 0}
                   className="rounded-lg bg-primary px-6 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={submitting || userAnnotations.length === 0}
+                  onClick={handleSubmit}
+                  type="button"
                 >
                   Zatwierdź adnotacje
                 </button>
@@ -429,7 +429,7 @@ export default function AnnotatePage() {
                   <div className="h-4 bg-muted rounded w-1/3" />
                   <div className="grid grid-cols-4 gap-3">
                     {[...Array(4)].map((_, i) => (
-                      <div key={i} className="h-16 bg-muted rounded-lg" />
+                      <div className="h-16 bg-muted rounded-lg" key={i} />
                     ))}
                   </div>
                   <div className="space-y-2 border-t border-border pt-4">
@@ -474,12 +474,12 @@ export default function AnnotatePage() {
         {/* ── FEEDBACK phase ── */}
         {phase === "feedback" && comparison && (
           <FeedbackPanel
+            comparison={comparison}
             feedback={feedback}
             feedbackLoading={feedbackLoading}
-            comparison={comparison}
             imageDataUri={imageDataUri}
-            onRetry={handleRetry}
             onAdjust={handleAdjust}
+            onRetry={handleRetry}
             submitError={submitError}
           />
         )}
