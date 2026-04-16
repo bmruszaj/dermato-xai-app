@@ -29,7 +29,7 @@ export function SubmitButton({
       )}
 
       <output aria-live="polite" className="sr-only">
-        {pending || isSuccessful ? "Loading" : "Submit form"}
+        {pending || isSuccessful ? "Ładowanie" : "Wyślij formularz"}
       </output>
     </Button>
   );

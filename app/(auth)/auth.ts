@@ -2,6 +2,7 @@ import { compare } from "bcrypt-ts";
 import NextAuth, { type DefaultSession } from "next-auth";
 import type { DefaultJWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 import { DUMMY_PASSWORD } from "@/lib/constants";
 import { getUser } from "@/lib/db/queries";
 import { authConfig } from "./auth.config";
@@ -38,6 +39,10 @@ export const {
 } = NextAuth({
   ...authConfig,
   providers: [
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    }),
     Credentials({
       credentials: {
         email: { label: "Email", type: "email" },
@@ -73,8 +78,8 @@ export const {
   callbacks: {
     jwt({ token, user }) {
       if (user) {
-        token.id = user.id as string;
-        token.type = user.type;
+        token.id = (user.id ?? token.sub) as string;
+        token.type = (user.type ?? "regular") as UserType;
       }
 
       return token;

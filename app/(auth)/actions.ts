@@ -6,6 +6,10 @@ import { createUser, getUser } from "@/lib/db/queries";
 
 import { signIn } from "./auth";
 
+export async function signInWithGoogle() {
+  await signIn("google", { redirectTo: "/annotate" });
+}
+
 const authFormSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),

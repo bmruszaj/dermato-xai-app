@@ -6,9 +6,10 @@ import { useSession } from "next-auth/react";
 import { useActionState, useEffect, useState } from "react";
 
 import { AuthForm } from "@/components/auth/auth-form";
+import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import { SubmitButton } from "@/components/auth/submit-button";
 import { toast } from "@/components/auth/toast";
-import { type LoginActionState, login } from "../actions";
+import { type LoginActionState, login, signInWithGoogle } from "../actions";
 
 export default function Page() {
   const router = useRouter();
@@ -25,11 +26,11 @@ export default function Page() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: router and updateSession are stable refs
   useEffect(() => {
     if (state.status === "failed") {
-      toast({ type: "error", description: "Invalid credentials!" });
+      toast({ type: "error", description: "Nieprawidłowe dane logowania!" });
     } else if (state.status === "invalid_data") {
       toast({
         type: "error",
-        description: "Failed validating your submission!",
+        description: "Błąd walidacji danych!",
       });
     } else if (state.status === "success") {
       setIsSuccessful(true);
@@ -45,19 +46,25 @@ export default function Page() {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">Witaj ponownie</h1>
       <p className="text-sm text-muted-foreground">
-        Sign in to your account to continue
+        Zaloguj się, aby kontynuować
       </p>
       <AuthForm action={handleSubmit} defaultEmail={email}>
-        <SubmitButton isSuccessful={isSuccessful}>Sign in</SubmitButton>
+        <SubmitButton isSuccessful={isSuccessful}>Zaloguj się</SubmitButton>
+        <div className="relative flex items-center gap-3">
+          <div className="h-px flex-1 bg-border" />
+          <span className="text-[12px] text-muted-foreground">lub</span>
+          <div className="h-px flex-1 bg-border" />
+        </div>
+        <GoogleSignInButton action={signInWithGoogle} />
         <p className="text-center text-[13px] text-muted-foreground">
-          {"No account? "}
+          {"Nie masz konta? "}
           <Link
             className="text-foreground underline-offset-4 hover:underline"
             href="/register"
           >
-            Sign up
+            Zarejestruj się
           </Link>
         </p>
       </AuthForm>

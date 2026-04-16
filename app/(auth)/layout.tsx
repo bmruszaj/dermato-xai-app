@@ -15,7 +15,7 @@ export default function AuthLayout({
           href="/annotate"
         >
           <ArrowLeftIcon className="size-3.5" />
-          Back
+          Wstecz
         </Link>
         <div className="flex flex-col gap-2">
           <div className="mb-2 flex size-9 items-center justify-center rounded-lg bg-muted/60 text-muted-foreground ring-1 ring-border/50">
