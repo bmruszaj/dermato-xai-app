@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import BBoxAnnotator from "./BBoxAnnotator";
-import type { EntryType } from "./BBoxAnnotator";
 import { ANNOTATION_LABELS } from "@/lib/annotate/types";
+import type { EntryType } from "./BBoxAnnotator";
+import BBoxAnnotator from "./BBoxAnnotator";
 
 interface AnnotationCanvasProps {
   imageUrl: string;
@@ -20,12 +20,12 @@ export const AnnotationCanvas = React.forwardRef<
     <div className="w-full overflow-auto rounded-lg border border-border bg-black">
       <div className="inline-block min-w-full">
         <BBoxAnnotator
-          url={imageUrl}
+          borderWidth={2}
           inputMethod="select"
           labels={[...ANNOTATION_LABELS]}
           onChange={onChange}
-          borderWidth={2}
           ref={ref}
+          url={imageUrl}
         />
       </div>
     </div>

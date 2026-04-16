@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import type React from "react";
+import { useRef, useState } from "react";
 
 interface UploadZoneProps {
   onImageReady: (dataUri: string) => void;
@@ -42,25 +43,28 @@ export function UploadZone({ onImageReady }: UploadZoneProps) {
           : "border-border hover:border-primary/60 hover:bg-muted/40"
       }`}
       onClick={() => inputRef.current?.click()}
-      onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
       onDragLeave={() => setDragging(false)}
+      onDragOver={(e) => {
+        e.preventDefault();
+        setDragging(true);
+      }}
       onDrop={handleDrop}
     >
       <input
-        ref={inputRef}
-        type="file"
         accept="image/*"
         className="hidden"
         onChange={handleChange}
+        ref={inputRef}
+        type="file"
       />
 
       {preview ? (
         <div className="flex flex-col items-center gap-3 p-4">
           {/* biome-ignore lint/performance/noImgElement: data URI preview thumbnail */}
           <img
-            src={preview}
             alt="Podgląd wgranego obrazu"
             className="max-h-48 max-w-full rounded-lg object-contain shadow-md"
+            src={preview}
           />
           <p className="text-sm text-muted-foreground">
             Kliknij aby zmienić obraz
@@ -76,10 +80,10 @@ export function UploadZone({ onImageReady }: UploadZoneProps) {
               viewBox="0 0 24 24"
             >
               <path
+                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={1.5}
-                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
               />
             </svg>
           </div>

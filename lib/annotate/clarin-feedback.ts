@@ -40,7 +40,7 @@ function extractCompletionText(responseJson: unknown): string {
  */
 export async function getClarinFeedback(
   prompt: string,
-  apiKey: string,
+  apiKey: string
 ): Promise<string> {
   const response = await fetch(CLARIN_CHAT_COMPLETIONS_URL, {
     method: "POST",
@@ -63,13 +63,13 @@ export async function getClarinFeedback(
     json = JSON.parse(text);
   } catch {
     throw new Error(
-      `CLARIN returned non-JSON (status ${response.status}): ${text.slice(0, 200)}`,
+      `CLARIN returned non-JSON (status ${response.status}): ${text.slice(0, 200)}`
     );
   }
 
   if (!response.ok) {
     throw new Error(
-      `CLARIN completions failed (status ${response.status}): ${text.slice(0, 200)}`,
+      `CLARIN completions failed (status ${response.status}): ${text.slice(0, 200)}`
     );
   }
 

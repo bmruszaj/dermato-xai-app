@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { ComparisonResult } from "@/lib/annotate/types";
 
 interface ComparisonOverlayProps {
@@ -152,10 +152,10 @@ export function ComparisonOverlay({
   }, [imageDataUri, comparison]);
 
   return (
-    <div ref={containerRef} className="w-full">
+    <div className="w-full" ref={containerRef}>
       <canvas
-        ref={canvasRef}
         className="w-full rounded-lg border border-border"
+        ref={canvasRef}
         style={{ display: "block" }}
       />
       {/* Legend */}

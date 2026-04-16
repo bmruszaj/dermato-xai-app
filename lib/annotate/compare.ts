@@ -1,4 +1,9 @@
-import type { AnnotationBox, ComparisonResult, MatchedPair, ModelPrediction } from "./types";
+import type {
+  AnnotationBox,
+  ComparisonResult,
+  MatchedPair,
+  ModelPrediction,
+} from "./types";
 import { IOU_THRESHOLD, MODEL_CLASS } from "./types";
 
 /** Normalized box in 0-1 coordinate space. */
@@ -12,7 +17,7 @@ interface NormBox {
 function toNormFromPixels(
   box: AnnotationBox,
   imgW: number,
-  imgH: number,
+  imgH: number
 ): NormBox {
   return {
     x1: box.left / imgW,
@@ -58,7 +63,7 @@ function computeIou(a: NormBox, b: NormBox): number {
 export function compareAnnotations(
   userBoxes: AnnotationBox[],
   modelPredictions: ModelPrediction[],
-  imageDimensions: { width: number; height: number },
+  imageDimensions: { width: number; height: number }
 ): ComparisonResult {
   const { width: imgW, height: imgH } = imageDimensions;
 
@@ -97,8 +102,12 @@ export function compareAnnotations(
     });
   }
 
-  const userOnlyYellow = yellowBoxes.filter((_, i) => !matchedUserIndices.has(i));
-  const modelOnlyYellow = modelPredictions.filter((_, i) => !matchedModelIndices.has(i));
+  const userOnlyYellow = yellowBoxes.filter(
+    (_, i) => !matchedUserIndices.has(i)
+  );
+  const modelOnlyYellow = modelPredictions.filter(
+    (_, i) => !matchedModelIndices.has(i)
+  );
 
   return {
     matched,
