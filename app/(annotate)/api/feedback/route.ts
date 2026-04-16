@@ -2,9 +2,13 @@ import { type NextRequest, NextResponse } from "next/server";
 import { getClarinFeedback } from "@/lib/annotate/clarin-feedback";
 import { buildFeedbackPrompt } from "@/lib/annotate/prompt";
 import type { ComparisonResult } from "@/lib/annotate/types";
+import { verifySession } from "@/lib/auth/session";
+import { AppError } from "@/lib/errors";
 
 export async function POST(req: NextRequest) {
   try {
+    await verifySession();
+
     const body = (await req.json()) as { comparison?: ComparisonResult };
     const { comparison } = body;
 
@@ -28,6 +32,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ feedback });
   } catch (error) {
+    if (error instanceof AppError) {
+      return error.toResponse();
+    }
     const message = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
       { error: `Feedback generation failed: ${message}` },

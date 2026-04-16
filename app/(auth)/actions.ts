@@ -1,5 +1,6 @@
 "use server";
 
+import { AuthError } from "next-auth";
 import { z } from "zod";
 
 import { createUser, getUser } from "@/lib/db/queries";
@@ -41,7 +42,12 @@ export const login = async (
       return { status: "invalid_data" };
     }
 
-    return { status: "failed" };
+    // CredentialsSignin is thrown when authorize() returns null
+    if (error instanceof AuthError) {
+      return { status: "failed" };
+    }
+
+    throw error; // rethrow — could be a redirect or unexpected error
   }
 };
 
@@ -83,6 +89,10 @@ export const register = async (
       return { status: "invalid_data" };
     }
 
-    return { status: "failed" };
+    if (error instanceof AuthError) {
+      return { status: "failed" };
+    }
+
+    throw error; // rethrow — could be a redirect or unexpected error
   }
 };

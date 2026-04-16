@@ -1,4 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { verifySession } from "@/lib/auth/session";
+import { AppError } from "@/lib/errors";
 
 // Allow up to 5 minutes — model cold-start can be slow
 export const maxDuration = 300;
@@ -9,6 +11,8 @@ const MODAL_URL =
 
 export async function POST(req: NextRequest) {
   try {
+    await verifySession();
+
     const body = (await req.json()) as { imageBase64?: string };
     const { imageBase64 } = body;
 
@@ -75,6 +79,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ predictions });
   } catch (error) {
+    if (error instanceof AppError) {
+      return error.toResponse();
+    }
     const message = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
       { predictions: [], error: message },

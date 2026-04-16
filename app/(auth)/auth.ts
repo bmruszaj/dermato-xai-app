@@ -4,7 +4,7 @@ import type { DefaultJWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { DUMMY_PASSWORD } from "@/lib/constants";
-import { getUser } from "@/lib/db/queries";
+import { getUser, upsertGoogleUser } from "@/lib/db/queries";
 import { authConfig } from "./auth.config";
 
 export type UserType = "regular";
@@ -21,6 +21,8 @@ declare module "next-auth" {
     id?: string;
     email?: string | null;
     type: UserType;
+    /** DB UUID — set after Google upsert so JWT can use it */
+    dbId?: string;
   }
 }
 
@@ -42,6 +44,7 @@ export const {
     Google({
       clientId: process.env.AUTH_GOOGLE_CLIENT_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      checks: ["pkce", "state"],
     }),
     Credentials({
       credentials: {
@@ -76,9 +79,38 @@ export const {
     }),
   ],
   callbacks: {
+    async signIn({ user: authUser, account, profile }) {
+      // Only handle Google provider here
+      if (account?.provider !== "google") {
+        return true;
+      }
+
+      const email = profile?.email ?? authUser.email;
+      if (!email) {
+        return false;
+      }
+
+      try {
+        const dbUser = await upsertGoogleUser({
+          email,
+          name: profile?.name ?? authUser.name,
+          image:
+            (profile as { picture?: string } | undefined)?.picture ??
+            authUser.image,
+        });
+        // Stash the real DB UUID so the jwt callback can pick it up
+        authUser.dbId = dbUser.id;
+        return true;
+      } catch {
+        return false;
+      }
+    },
     jwt({ token, user }) {
       if (user) {
-        token.id = (user.id ?? token.sub) as string;
+        // For Google users, prefer the DB UUID stored in dbId
+        token.id = ((user as { dbId?: string }).dbId ??
+          user.id ??
+          token.sub) as string;
         token.type = (user.type ?? "regular") as UserType;
       }
 
