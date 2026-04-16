@@ -19,7 +19,7 @@ export async function proxy(request: NextRequest) {
   if (PUBLIC_PATHS.includes(pathname)) {
     const token = await getToken({
       req: request,
-      secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET,
+      secret: process.env.AUTH_SECRET,
       secureCookie: !isDevelopmentEnvironment,
     });
     // If already logged in, skip login/register and go straight to app
@@ -32,7 +32,7 @@ export async function proxy(request: NextRequest) {
 
   const token = await getToken({
     req: request,
-    secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET,
+    secret: process.env.AUTH_SECRET,
     secureCookie: !isDevelopmentEnvironment,
   });
 
