@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useRef, useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 import { UploadZone } from "@/components/annotate/UploadZone";
 import { AnnotationCanvas } from "@/components/annotate/AnnotationCanvas";
 import type { AnnotatorHandle } from "@/components/annotate/AnnotationCanvas";
@@ -38,8 +39,7 @@ function MlStatusBadge({
       spin: false,
     },
     error: {
-      color:
-        "bg-red-500/20 text-red-700 dark:text-red-400 border-red-500/30",
+      color: "bg-red-500/20 text-red-700 dark:text-red-400 border-red-500/30",
       text: "Błąd ML (porównanie bez modelu)",
       spin: false,
     },
@@ -73,6 +73,7 @@ function MlStatusBadge({
 }
 
 export default function AnnotatePage() {
+  const { data: session } = useSession();
   const [phase, setPhase] = useState<AnnotationPhase>("upload");
   const [imageDataUri, setImageDataUri] = useState<string>("");
   const [imageDimensions, setImageDimensions] = useState<{
@@ -185,7 +186,10 @@ export default function AnnotatePage() {
           body: JSON.stringify({ comparison: comparisonResult }),
         });
 
-        const data = (await res.json()) as { feedback?: string; error?: string };
+        const data = (await res.json()) as {
+          feedback?: string;
+          error?: string;
+        };
 
         if (!res.ok || data.error) {
           throw new Error(data.error ?? `Feedback API error ${res.status}`);
@@ -193,7 +197,10 @@ export default function AnnotatePage() {
 
         setFeedback(data.feedback ?? "");
       } catch (feedbackErr: unknown) {
-        const msg = feedbackErr instanceof Error ? feedbackErr.message : String(feedbackErr);
+        const msg =
+          feedbackErr instanceof Error
+            ? feedbackErr.message
+            : String(feedbackErr);
         setSubmitError(msg);
       } finally {
         setFeedbackLoading(false);
@@ -242,45 +249,62 @@ export default function AnnotatePage() {
               Zaznacz zmiany skórne i otrzymaj feedback od AI
             </p>
           </div>
-          {/* Progress steps */}
-          <div className="hidden sm:flex items-center gap-1 text-xs">
-            {(
-              [
-                { key: "upload", label: "1. Wgraj" },
-                { key: "annotating", label: "2. Adnotuj" },
-                { key: "submitting", label: "3. Analiza" },
-                { key: "feedback", label: "4. Feedback" },
-              ] as const
-            ).map(({ key, label }, i, arr) => {
-              const phases: AnnotationPhase[] = [
-                "upload",
-                "annotating",
-                "submitting",
-                "feedback",
-              ];
-              const currentIdx = phases.indexOf(phase);
-              const stepIdx = phases.indexOf(key);
-              const active = currentIdx === stepIdx;
-              const done = currentIdx > stepIdx;
-              return (
-                <React.Fragment key={key}>
-                  <span
-                    className={`px-2 py-1 rounded-md font-medium transition-colors ${
-                      active
-                        ? "bg-primary text-primary-foreground"
-                        : done
-                          ? "text-muted-foreground"
-                          : "text-muted-foreground/40"
-                    }`}
-                  >
-                    {label}
-                  </span>
-                  {i < arr.length - 1 && (
-                    <span className="text-muted-foreground/30">›</span>
-                  )}
-                </React.Fragment>
-              );
-            })}
+          <div className="flex items-center gap-4">
+            {/* Progress steps */}
+            <div className="hidden sm:flex items-center gap-1 text-xs">
+              {(
+                [
+                  { key: "upload", label: "1. Wgraj" },
+                  { key: "annotating", label: "2. Adnotuj" },
+                  { key: "submitting", label: "3. Analiza" },
+                  { key: "feedback", label: "4. Feedback" },
+                ] as const
+              ).map(({ key, label }, i, arr) => {
+                const phases: AnnotationPhase[] = [
+                  "upload",
+                  "annotating",
+                  "submitting",
+                  "feedback",
+                ];
+                const currentIdx = phases.indexOf(phase);
+                const stepIdx = phases.indexOf(key);
+                const active = currentIdx === stepIdx;
+                const done = currentIdx > stepIdx;
+                return (
+                  <React.Fragment key={key}>
+                    <span
+                      className={`px-2 py-1 rounded-md font-medium transition-colors ${
+                        active
+                          ? "bg-primary text-primary-foreground"
+                          : done
+                            ? "text-muted-foreground"
+                            : "text-muted-foreground/40"
+                      }`}
+                    >
+                      {label}
+                    </span>
+                    {i < arr.length - 1 && (
+                      <span className="text-muted-foreground/30">›</span>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+            {/* User info */}
+            {session?.user && (
+              <div className="flex items-center gap-2 border-l border-border pl-4">
+                <span className="hidden sm:block text-xs text-muted-foreground truncate max-w-[140px]">
+                  {session.user.email}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => signOut({ callbackUrl: "/login" })}
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Wyloguj
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </header>
