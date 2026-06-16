@@ -2,6 +2,7 @@ import "server-only";
 
 const CLARIN_CHAT_COMPLETIONS_URL =
   "https://services.clarin-pl.eu/api/v1/oapi/chat/completions";
+const DEFAULT_CLARIN_MODEL = "llama3.3";
 
 function extractCompletionText(responseJson: unknown): string {
   if (!responseJson || typeof responseJson !== "object") {
@@ -36,12 +37,13 @@ function extractCompletionText(responseJson: unknown): string {
 
 /**
  * Call the Clarin chat/completions endpoint with a prompt and return the text response.
- * Model: llama3.1, temperature: 0.7, max_tokens: 1500.
+ * Model defaults to llama3.3; override with CLARIN_MODEL.
  */
 export async function getClarinFeedback(
   prompt: string,
   apiKey: string
 ): Promise<string> {
+  const model = process.env.CLARIN_MODEL ?? DEFAULT_CLARIN_MODEL;
   const response = await fetch(CLARIN_CHAT_COMPLETIONS_URL, {
     method: "POST",
     headers: {
@@ -50,7 +52,7 @@ export async function getClarinFeedback(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "llama3.1",
+      model,
       temperature: 0.7,
       max_tokens: 1500,
       messages: [{ role: "user", content: prompt }],

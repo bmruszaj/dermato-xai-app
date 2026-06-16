@@ -18,61 +18,59 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
       : null;
 
   return (
-    <div className="rounded-xl border border-border bg-card p-6 shadow-sm space-y-5">
-      <h3 className="text-base font-semibold text-foreground">
-        Dane porównania
-      </h3>
+    <div className="space-y-5 rounded-[2rem] border border-[#b9e2e1] bg-white p-6 shadow-[0_14px_40px_rgba(69,151,153,0.12)]">
+      <h3 className="font-bold text-[#0d4a48] text-base">Dane porównania</h3>
 
       {/* Summary row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <StatCard
           bg="bg-green-500/10"
-          color="text-green-600 dark:text-green-400"
+          color="text-green-600"
           label="Dopasowane"
           value={matched.length}
         />
         <StatCard
           bg="bg-orange-500/10"
-          color="text-orange-600 dark:text-orange-400"
+          color="text-orange-600"
           label="Tylko użytkownik"
           value={userOnlyYellow.length}
         />
         <StatCard
           bg="bg-red-500/10"
-          color="text-red-600 dark:text-red-400"
+          color="text-red-600"
           label="Tylko model"
           value={modelOnlyYellow.length}
         />
         <StatCard
           bg="bg-blue-500/10"
-          color="text-blue-600 dark:text-blue-400"
+          color="text-blue-600"
           label="Inne klasy"
           value={otherUserAnnotations.length}
         />
       </div>
 
       {/* IoU + totals */}
-      <div className="text-xs text-muted-foreground space-y-1 border-t border-border pt-4">
+      <div className="space-y-1 border-[#b9e2e1] border-t pt-4 text-[#4c7372] text-xs">
         <div className="flex justify-between">
           <span>Próg IoU</span>
-          <span className="font-mono font-medium text-foreground">0.30</span>
+          <span className="font-medium font-mono text-[#0d4a48]">0.30</span>
         </div>
         <div className="flex justify-between">
           <span>Łącznie adnotacji użytkownika (Yellow globules)</span>
-          <span className="font-mono font-medium text-foreground">
+          <span className="font-medium font-mono text-[#0d4a48]">
             {totalUserYellow}
           </span>
         </div>
         <div className="flex justify-between">
           <span>Łącznie detekcji modelu</span>
-          <span className="font-mono font-medium text-foreground">
+          <span className="font-medium font-mono text-[#0d4a48]">
             {totalModel}
           </span>
         </div>
         {avgIou !== null && (
           <div className="flex justify-between">
             <span>Średnie IoU dopasowanych par</span>
-            <span className="font-mono font-medium text-foreground">
+            <span className="font-medium font-mono text-[#0d4a48]">
               {avgIou.toFixed(3)}
             </span>
           </div>
@@ -82,12 +80,12 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
       {/* Matched pairs detail */}
       {matched.length > 0 && (
         <div className="space-y-2">
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+          <p className="font-bold text-[#4c7372] text-xs uppercase tracking-wide">
             Dopasowane pary
           </p>
-          <div className="rounded-lg border border-border overflow-hidden">
+          <div className="overflow-hidden rounded-[1.25rem] border border-[#b9e2e1]">
             <table className="w-full text-xs">
-              <thead className="bg-muted/50">
+              <thead className="bg-[#eef8f8]">
                 <tr>
                   <th className="px-3 py-2 text-left font-medium">#</th>
                   <th className="px-3 py-2 text-left font-medium">
@@ -99,14 +97,12 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
+              <tbody className="divide-y divide-[#d6eeee]">
                 {matched.map((m, i) => (
-                  <tr className="bg-background" key={`match-${i}`}>
-                    <td className="px-3 py-1.5 text-muted-foreground">
-                      {i + 1}
-                    </td>
+                  <tr className="bg-white" key={`match-${i}`}>
+                    <td className="px-3 py-1.5 text-[#4c7372]">{i + 1}</td>
                     <td className="px-3 py-1.5">{m.userBox.label}</td>
-                    <td className="px-3 py-1.5 text-right font-mono text-green-600 dark:text-green-400">
+                    <td className="px-3 py-1.5 text-right font-mono text-green-600">
                       {m.iou.toFixed(3)}
                     </td>
                     <td className="px-3 py-1.5 text-right font-mono">
@@ -123,12 +119,12 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
       {/* User-only Yellow globules */}
       {userOnlyYellow.length > 0 && (
         <div className="space-y-2">
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+          <p className="font-bold text-[#4c7372] text-xs uppercase tracking-wide">
             Yellow globules użytkownika — brak dopasowania modelu
           </p>
-          <div className="rounded-lg border border-border overflow-hidden">
+          <div className="overflow-hidden rounded-[1.25rem] border border-[#b9e2e1]">
             <table className="w-full text-xs">
-              <thead className="bg-muted/50">
+              <thead className="bg-[#eef8f8]">
                 <tr>
                   <th className="px-3 py-2 text-left font-medium">#</th>
                   <th className="px-3 py-2 text-right font-medium">Left</th>
@@ -137,12 +133,10 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
                   <th className="px-3 py-2 text-right font-medium">H</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
+              <tbody className="divide-y divide-[#d6eeee]">
                 {userOnlyYellow.map((b, i) => (
-                  <tr className="bg-background" key={`user-only-${i}`}>
-                    <td className="px-3 py-1.5 text-muted-foreground">
-                      {i + 1}
-                    </td>
+                  <tr className="bg-white" key={`user-only-${i}`}>
+                    <td className="px-3 py-1.5 text-[#4c7372]">{i + 1}</td>
                     <td className="px-3 py-1.5 text-right font-mono">
                       {b.left.toFixed(0)}px
                     </td>
@@ -166,12 +160,12 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
       {/* Model-only predictions */}
       {modelOnlyYellow.length > 0 && (
         <div className="space-y-2">
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+          <p className="font-bold text-[#4c7372] text-xs uppercase tracking-wide">
             Detekcje modelu — brak adnotacji użytkownika
           </p>
-          <div className="rounded-lg border border-border overflow-hidden">
+          <div className="overflow-hidden rounded-[1.25rem] border border-[#b9e2e1]">
             <table className="w-full text-xs">
-              <thead className="bg-muted/50">
+              <thead className="bg-[#eef8f8]">
                 <tr>
                   <th className="px-3 py-2 text-left font-medium">#</th>
                   <th className="px-3 py-2 text-right font-medium">X%</th>
@@ -181,12 +175,10 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
                   <th className="px-3 py-2 text-right font-medium">Pewność</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
+              <tbody className="divide-y divide-[#d6eeee]">
                 {modelOnlyYellow.map((p, i) => (
-                  <tr className="bg-background" key={`model-only-${i}`}>
-                    <td className="px-3 py-1.5 text-muted-foreground">
-                      {i + 1}
-                    </td>
+                  <tr className="bg-white" key={`model-only-${i}`}>
+                    <td className="px-3 py-1.5 text-[#4c7372]">{i + 1}</td>
                     <td className="px-3 py-1.5 text-right font-mono">
                       {p.x.toFixed(1)}
                     </td>
@@ -225,9 +217,11 @@ function StatCard({
   bg: string;
 }) {
   return (
-    <div className={`rounded-lg p-3 ${bg} flex flex-col items-center gap-1`}>
+    <div
+      className={`rounded-[1rem] p-3 ${bg} flex flex-col items-center gap-1`}
+    >
       <span className={`text-2xl font-bold ${color}`}>{value}</span>
-      <span className="text-xs text-muted-foreground text-center">{label}</span>
+      <span className="text-center text-[#4c7372] text-xs">{label}</span>
     </div>
   );
 }

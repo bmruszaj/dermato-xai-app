@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnnotationSvgOverlay } from "./AnnotationSvgOverlay";
-import type { FilterState } from "./AnnotationSvgOverlay";
 import type { ComparisonResult } from "@/lib/annotate/types";
+import type { FilterState } from "./AnnotationSvgOverlay";
+import { AnnotationSvgOverlay } from "./AnnotationSvgOverlay";
 
 interface ImageComparisonSliderProps {
   imageDataUri: string;
@@ -39,7 +39,6 @@ export function ImageComparisonSlider({
     );
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: calcPct is stable (uses ref)
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
       if (!dragging.current) {
@@ -77,7 +76,7 @@ export function ImageComparisonSlider({
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-lg border border-border select-none touch-manipulation"
+      className="relative w-full touch-manipulation select-none overflow-hidden rounded-[1.25rem] border border-[#b9e2e1]"
       ref={containerRef}
     >
       {/* Right layer (model only) — full width, shown underneath */}
@@ -119,7 +118,7 @@ export function ImageComparisonSlider({
       {/* Drag handle */}
       <button
         aria-label="Przeciągnij aby porównać adnotacje człowieka i modelu"
-        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white border border-border shadow-md flex items-center justify-center cursor-col-resize hover:scale-110 transition-transform focus-visible:ring-2 focus-visible:ring-ring"
+        className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 flex h-8 w-8 cursor-col-resize items-center justify-center rounded-full border border-[#b9e2e1] bg-white shadow-md transition-transform hover:scale-110 focus-visible:ring-2 focus-visible:ring-[#5fb7b9]"
         onMouseDown={startDrag}
         onTouchStart={startDrag}
         style={{ left: `${splitPct}%` }}
@@ -127,7 +126,7 @@ export function ImageComparisonSlider({
       >
         <svg
           aria-hidden="true"
-          className="text-foreground/60"
+          className="text-[#0d4a48]/70"
           fill="none"
           height="14"
           viewBox="0 0 16 16"
@@ -144,10 +143,10 @@ export function ImageComparisonSlider({
       </button>
 
       {/* Side labels */}
-      <div className="absolute top-2 left-2 rounded bg-black/60 px-2 py-0.5 text-[10px] font-medium text-white pointer-events-none">
+      <div className="pointer-events-none absolute top-2 left-2 rounded-full bg-[#0d4a48]/75 px-2 py-0.5 font-bold text-[10px] text-white">
         Człowiek
       </div>
-      <div className="absolute top-2 right-2 rounded bg-black/60 px-2 py-0.5 text-[10px] font-medium text-white pointer-events-none">
+      <div className="pointer-events-none absolute top-2 right-2 rounded-full bg-[#0d4a48]/75 px-2 py-0.5 font-bold text-[10px] text-white">
         Model AI
       </div>
     </div>

@@ -4,10 +4,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   DASH_HUMAN,
   DASH_MODEL,
-  LINE_WIDTH_HUMAN,
-  LINE_WIDTH_MODEL,
   getClassColor,
   getLabelDisplay,
+  LINE_WIDTH_HUMAN,
+  LINE_WIDTH_MODEL,
 } from "@/lib/annotate/classColors";
 import type { ComparisonResult } from "@/lib/annotate/types";
 
@@ -111,18 +111,18 @@ export function AnnotationSvgOverlay({
         iou,
         categoryKey: `${userBox.label}|human`,
       });
-      const left = ((modelBox.x - modelBox.width / 2) / 100) * imgW * scaleX;
-      const top = ((modelBox.y - modelBox.height / 2) / 100) * imgH * scaleY;
+      const left = (modelBox.x / 100) * imgW * scaleX;
+      const top = (modelBox.y / 100) * imgH * scaleY;
       entries.push({
         x: left,
         y: top,
         w: (modelBox.width / 100) * imgW * scaleX,
         h: (modelBox.height / 100) * imgH * scaleY,
-        label: userBox.label,
+        label: modelBox.label,
         source: "model",
         iou,
         confidence: modelBox.confidence,
-        categoryKey: `${userBox.label}|model`,
+        categoryKey: `${modelBox.label}|model`,
       });
     }
 
@@ -139,17 +139,17 @@ export function AnnotationSvgOverlay({
     }
 
     for (const pred of comparison.modelOnlyYellow) {
-      const left = ((pred.x - pred.width / 2) / 100) * imgW * scaleX;
-      const top = ((pred.y - pred.height / 2) / 100) * imgH * scaleY;
+      const left = (pred.x / 100) * imgW * scaleX;
+      const top = (pred.y / 100) * imgH * scaleY;
       entries.push({
         x: left,
         y: top,
         w: (pred.width / 100) * imgW * scaleX,
         h: (pred.height / 100) * imgH * scaleY,
-        label: "Yellow globlues (ulcer)",
+        label: pred.label,
         source: "model",
         confidence: pred.confidence,
-        categoryKey: "Yellow globlues (ulcer)|model",
+        categoryKey: `${pred.label}|model`,
       });
     }
 
@@ -340,41 +340,41 @@ export function AnnotationSvgOverlay({
 function BBoxTooltip({ entry }: { entry: BBoxEntry }) {
   const color = getClassColor(entry.label);
   return (
-    <div className="rounded-lg border border-border bg-popover shadow-lg px-3 py-2 text-xs space-y-1 min-w-[160px] max-w-[210px]">
+    <div className="min-w-[160px] max-w-[210px] space-y-1 rounded-[1rem] border border-[#b9e2e1] bg-white px-3 py-2 text-[#4c7372] text-xs shadow-[0_14px_40px_rgba(69,151,153,0.18)]">
       <div className="flex items-center gap-1.5">
         <span
           aria-hidden="true"
-          className="inline-block w-3 h-3 rounded-sm flex-shrink-0"
+          className="inline-block h-3 w-3 flex-shrink-0 rounded-sm"
           style={{ backgroundColor: color }}
         />
-        <span className="font-semibold text-foreground leading-tight">
+        <span className="font-bold text-[#0d4a48] leading-tight">
           {getLabelDisplay(entry.label)}
         </span>
       </div>
-      <div className="text-muted-foreground">
+      <div>
         Źródło:{" "}
-        <span className="font-medium text-foreground">
+        <span className="font-bold text-[#0d4a48]">
           {entry.source === "human" ? "Człowiek" : "Model AI"}
         </span>
       </div>
       {entry.iou !== undefined && (
-        <div className="text-muted-foreground">
+        <div>
           IoU:{" "}
-          <span className="font-mono font-medium text-foreground">
+          <span className="font-medium font-mono text-[#0d4a48]">
             {entry.iou.toFixed(3)}
           </span>
         </div>
       )}
       {entry.confidence !== undefined && (
-        <div className="text-muted-foreground">
+        <div>
           Pewność:{" "}
-          <span className="font-mono font-medium text-foreground">
+          <span className="font-medium font-mono text-[#0d4a48]">
             {(entry.confidence * 100).toFixed(1)}%
           </span>
         </div>
       )}
       <div
-        className="mt-1 pt-1 border-t border-border/50 text-[10px] font-medium"
+        className="mt-1 border-[#b9e2e1] border-t pt-1 font-bold text-[10px]"
         style={{ color }}
       >
         {entry.source === "model"

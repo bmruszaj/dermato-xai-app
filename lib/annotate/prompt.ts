@@ -1,5 +1,5 @@
 import type { ComparisonResult } from "./types";
-import { ANNOTATION_LABELS, MODEL_CLASS } from "./types";
+import { ANNOTATION_LABELS } from "./types";
 
 /**
  * Counts user annotations by label.
@@ -10,10 +10,18 @@ function countByLabel(result: ComparisonResult): Record<string, number> {
     counts[label] = 0;
   }
 
-  // Yellow globules: matched + userOnly
-  counts[MODEL_CLASS] = result.matched.length + result.userOnlyYellow.length;
+  for (const { userBox } of result.matched) {
+    if (userBox.label in counts) {
+      counts[userBox.label]++;
+    }
+  }
 
-  // Other classes
+  for (const box of result.userOnlyYellow) {
+    if (box.label in counts) {
+      counts[box.label]++;
+    }
+  }
+
   for (const box of result.otherUserAnnotations) {
     if (box.label in counts) {
       counts[box.label]++;
@@ -44,7 +52,7 @@ export function buildFeedbackPrompt(result: ComparisonResult): string {
       ? result.matched
           .map(
             (m, i) =>
-              `  ${i + 1}. Pole użytkownika pokrywa się z detekcją modelu (IoU = ${(m.iou * 100).toFixed(1)}%, pewność modelu = ${(m.modelBox.confidence * 100).toFixed(1)}%)`
+              `  ${i + 1}. "${m.userBox.label}": pole użytkownika pokrywa się z detekcją modelu (IoU = ${(m.iou * 100).toFixed(1)}%, pewność modelu = ${(m.modelBox.confidence * 100).toFixed(1)}%)`
           )
           .join("\n")
       : "  Brak dopasowań.";
@@ -53,8 +61,8 @@ export function buildFeedbackPrompt(result: ComparisonResult): string {
     result.userOnlyYellow.length > 0
       ? result.userOnlyYellow
           .map(
-            (_, i) =>
-              `  ${i + 1}. Użytkownik zaznaczył "${MODEL_CLASS}", ale model nie wykrył tam zmiany.`
+            (box, i) =>
+              `  ${i + 1}. Użytkownik zaznaczył "${box.label}", ale model nie wykrył tam zmiany.`
           )
           .join("\n")
       : "  Brak.";
@@ -64,7 +72,7 @@ export function buildFeedbackPrompt(result: ComparisonResult): string {
       ? result.modelOnlyYellow
           .map(
             (p, i) =>
-              `  ${i + 1}. Model wykrył zmianę z pewnością ${(p.confidence * 100).toFixed(1)}%, ale użytkownik jej nie zaznaczył.`
+              `  ${i + 1}. Model wykrył "${p.label}" z pewnością ${(p.confidence * 100).toFixed(1)}%, ale użytkownik jej nie zaznaczył.`
           )
           .join("\n")
       : "  Brak.";
@@ -73,24 +81,20 @@ export function buildFeedbackPrompt(result: ComparisonResult): string {
 
 ## Kontekst zadania
 
-Student miał za zadanie zaznaczyć na obrazie dermoskopowym zmiany skórne przy użyciu bounding-boxów i przypisać im jedną z pięciu klas:
-- Rosettes
-- Milia-like-cyst
-- Blue-gray globules
-- MAY globules
-- Yellow globlues (ulcer)
+Student miał za zadanie zaznaczyć na obrazie dermoskopowym zmiany skórne przy użyciu bounding-boxów i przypisać im jedną z dostępnych klas:
+${ANNOTATION_LABELS.map((label) => `- ${label}`).join("\n")}
 
-Model AI (RF-DETR) był trenowany wyłącznie na klasie "${MODEL_CLASS}". Porównanie dotyczy tylko tej klasy.
+Model AI (RF-DETR + SAHI) zwraca detekcje dla aktualnie udostępnionych klas. Porównanie dotyczy par o tej samej etykiecie.
 
 ## Adnotacje studenta
 
 Łączna liczba adnotacji: ${totalUser}
 ${labelLines}
 
-## Wyniki porównania z modelem AI (tylko klasa "${MODEL_CLASS}")
+## Wyniki porównania z modelem AI
 
 Liczba detekcji modelu: ${totalModel}
-Liczba adnotacji studenta dla tej klasy: ${result.matched.length + result.userOnlyYellow.length}
+Liczba porównywanych adnotacji studenta: ${result.matched.length + result.userOnlyYellow.length}
 
 ### ✅ Poprawnie zidentyfikowane (pokrywają się z modelem):
 ${matchedLines}

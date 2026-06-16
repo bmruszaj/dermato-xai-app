@@ -1,16 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { ComparisonResult } from "@/lib/annotate/types";
 import {
   ALL_LABELS,
   CLASS_COLORS,
   getLabelDisplay,
 } from "@/lib/annotate/classColors";
-import { AnnotationSvgOverlay } from "./AnnotationSvgOverlay";
+import type { ComparisonResult } from "@/lib/annotate/types";
 import type { FilterState } from "./AnnotationSvgOverlay";
-import { MatrixToggles, buildDefaultFilters } from "./MatrixToggles";
+import { AnnotationSvgOverlay } from "./AnnotationSvgOverlay";
 import { ImageComparisonSlider } from "./ImageComparisonSlider";
+import { buildDefaultFilters, MatrixToggles } from "./MatrixToggles";
 
 interface FeedbackPanelProps {
   feedback: string;
@@ -27,22 +27,22 @@ type ViewMode = "overlay" | "compare";
 function FeedbackSkeleton() {
   return (
     <div className="space-y-4 animate-pulse">
-      <div className="h-4 bg-muted rounded w-2/3" />
+      <div className="h-4 w-2/3 rounded bg-[#d6eeee]" />
       <div className="space-y-2">
-        <div className="h-3 bg-muted rounded" />
-        <div className="h-3 bg-muted rounded w-11/12" />
-        <div className="h-3 bg-muted rounded w-4/5" />
+        <div className="h-3 rounded bg-[#d6eeee]" />
+        <div className="h-3 w-11/12 rounded bg-[#d6eeee]" />
+        <div className="h-3 w-4/5 rounded bg-[#d6eeee]" />
       </div>
-      <div className="h-4 bg-muted rounded w-1/2 mt-2" />
+      <div className="mt-2 h-4 w-1/2 rounded bg-[#d6eeee]" />
       <div className="space-y-2">
-        <div className="h-3 bg-muted rounded w-full" />
-        <div className="h-3 bg-muted rounded w-10/12" />
-        <div className="h-3 bg-muted rounded w-3/4" />
+        <div className="h-3 w-full rounded bg-[#d6eeee]" />
+        <div className="h-3 w-10/12 rounded bg-[#d6eeee]" />
+        <div className="h-3 w-3/4 rounded bg-[#d6eeee]" />
       </div>
-      <div className="h-4 bg-muted rounded w-3/5 mt-2" />
+      <div className="mt-2 h-4 w-3/5 rounded bg-[#d6eeee]" />
       <div className="space-y-2">
-        <div className="h-3 bg-muted rounded w-full" />
-        <div className="h-3 bg-muted rounded w-5/6" />
+        <div className="h-3 w-full rounded bg-[#d6eeee]" />
+        <div className="h-3 w-5/6 rounded bg-[#d6eeee]" />
       </div>
     </div>
   );
@@ -72,8 +72,8 @@ function computeCounts(
   for (const box of comparison.userOnlyYellow) {
     inc(box.label, "human");
   }
-  for (const _ of comparison.modelOnlyYellow) {
-    inc("Yellow globlues (ulcer)", "model");
+  for (const box of comparison.modelOnlyYellow) {
+    inc(box.label, "model");
   }
   return counts;
 }
@@ -173,18 +173,18 @@ export function FeedbackPanel({
   return (
     <div className="w-full space-y-6">
       {/* ── Main two-column layout ── */}
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-6 items-start">
+      <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-[1fr_340px]">
         {/* ── Left: Image viewer ── */}
         <div className="space-y-3">
           {/* Toolbar */}
-          <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             {/* View mode toggle */}
-            <div className="flex rounded-lg border border-border overflow-hidden text-xs font-medium">
+            <div className="flex overflow-hidden rounded-full border border-[#b9e2e1] bg-white text-xs font-bold shadow-sm">
               <button
-                className={`px-3 py-1.5 transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset ${
+                className={`px-4 py-2 transition-colors focus-visible:ring-2 focus-visible:ring-[#5fb7b9] focus-visible:ring-inset ${
                   viewMode === "overlay"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-background text-foreground hover:bg-muted"
+                    ? "bg-[#5fb7b9] text-white"
+                    : "text-[#0d4a48] hover:bg-[#eef8f8]"
                 }`}
                 onClick={() => {
                   setViewMode("overlay");
@@ -194,10 +194,10 @@ export function FeedbackPanel({
                 Nakładka
               </button>
               <button
-                className={`px-3 py-1.5 transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset border-l border-border ${
+                className={`border-[#b9e2e1] border-l px-4 py-2 transition-colors focus-visible:ring-2 focus-visible:ring-[#5fb7b9] focus-visible:ring-inset ${
                   viewMode === "compare"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-background text-foreground hover:bg-muted"
+                    ? "bg-[#5fb7b9] text-white"
+                    : "text-[#0d4a48] hover:bg-[#eef8f8]"
                 }`}
                 onClick={() => {
                   setViewMode("compare");
@@ -209,29 +209,29 @@ export function FeedbackPanel({
             </div>
 
             {/* Bbox counter */}
-            <span className="text-xs text-muted-foreground tabular-nums">
+            <span className="font-medium text-[#4c7372] text-xs tabular-nums">
               {bboxCount.visible} z {bboxCount.total} adnotacji widocznych
             </span>
 
             {/* Keyboard hint */}
-            <span className="hidden md:inline-flex items-center gap-1 text-[10px] text-muted-foreground/60">
-              <kbd className="px-1 py-0.5 rounded border border-border bg-muted font-mono text-[10px]">
+            <span className="hidden items-center gap-1 text-[#4c7372]/70 text-[10px] md:inline-flex">
+              <kbd className="rounded border border-[#b9e2e1] bg-[#eef8f8] px-1 py-0.5 font-mono text-[10px]">
                 H
               </kbd>{" "}
               człowiek
-              <kbd className="px-1 py-0.5 rounded border border-border bg-muted font-mono text-[10px]">
+              <kbd className="rounded border border-[#b9e2e1] bg-[#eef8f8] px-1 py-0.5 font-mono text-[10px]">
                 M
               </kbd>{" "}
               model
-              <kbd className="px-1 py-0.5 rounded border border-border bg-muted font-mono text-[10px]">
-                1–5
+              <kbd className="rounded border border-[#b9e2e1] bg-[#eef8f8] px-1 py-0.5 font-mono text-[10px]">
+                {ALL_LABELS.length > 1 ? `1–${ALL_LABELS.length}` : "1"}
               </kbd>{" "}
               klasy
             </span>
           </div>
 
           {/* Image */}
-          <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+          <div className="overflow-hidden rounded-[2rem] border border-[#b9e2e1] bg-white shadow-[0_14px_40px_rgba(69,151,153,0.12)]">
             {viewMode === "overlay" ? (
               <div className="p-3">
                 <AnnotationSvgOverlay
@@ -255,8 +255,8 @@ export function FeedbackPanel({
             )}
 
             {/* Legend */}
-            <div className="px-4 pb-4 pt-2 border-t border-border">
-              <div className="flex flex-wrap gap-3 text-[11px] text-muted-foreground">
+            <div className="border-[#b9e2e1] border-t px-4 pt-2 pb-4">
+              <div className="flex flex-wrap gap-3 text-[#4c7372] text-[11px]">
                 <div className="flex items-center gap-1.5">
                   <svg aria-hidden="true" height="10" width="20">
                     <line
@@ -284,7 +284,7 @@ export function FeedbackPanel({
                   </svg>
                   <span>Model AI (przerywana)</span>
                 </div>
-                <span className="text-muted-foreground/40">|</span>
+                <span className="text-[#4c7372]/40">|</span>
                 {ALL_LABELS.map((label) => (
                   <div className="flex items-center gap-1" key={label}>
                     <span
@@ -319,18 +319,25 @@ export function FeedbackPanel({
           />
 
           {/* Feedback text */}
-          <div className="rounded-xl border border-border bg-card p-5 shadow-sm space-y-4">
-            <h2 className="text-sm font-semibold text-foreground border-b border-border pb-3">
+          <div className="space-y-4 rounded-[2rem] border border-[#b9e2e1] bg-white p-5 shadow-[0_14px_40px_rgba(69,151,153,0.12)]">
+            <h2 className="border-[#b9e2e1] border-b pb-3 font-bold text-[#0d4a48] text-sm">
               Feedback edukacyjny
             </h2>
             {feedbackLoading ? (
               <FeedbackSkeleton />
             ) : submitError ? (
-              <div className="rounded-lg border border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-900/40 p-3 text-sm text-red-700 dark:text-red-400">
-                {submitError}
+              <div className="rounded-[1.25rem] border border-[#e4b65a]/45 bg-[#fff7df] p-4 text-[#8a6318] text-sm">
+                <p className="font-bold">
+                  Porównanie jest gotowe, ale feedback tekstowy jest chwilowo
+                  niedostępny.
+                </p>
+                <p className="mt-1">
+                  Możesz nadal analizować nakładkę, filtry i statystyki
+                  porównania. Szczegóły błędu: {submitError}
+                </p>
               </div>
             ) : (
-              <div className="prose prose-sm max-w-none dark:prose-invert space-y-3">
+              <div className="prose prose-sm max-w-none space-y-3">
                 {paragraphs.map((paragraph, i) => {
                   const isHeader =
                     paragraph.startsWith("##") ||
@@ -344,14 +351,14 @@ export function FeedbackPanel({
                   const paraKey = `para-${paragraph.slice(0, 40)}-${i}`;
                   return isHeader ? (
                     <h3
-                      className="text-sm font-semibold text-foreground mt-4 mb-1"
+                      className="mt-4 mb-1 font-bold text-[#0d4a48] text-sm"
                       key={paraKey}
                     >
                       {renderInline(cleanText)}
                     </h3>
                   ) : (
                     <p
-                      className="text-sm text-foreground/90 leading-relaxed"
+                      className="text-[#4c7372] text-sm leading-relaxed"
                       key={paraKey}
                     >
                       {renderInline(paragraph)}
@@ -367,14 +374,14 @@ export function FeedbackPanel({
       {/* ── Actions ── */}
       <div className="flex gap-3">
         <button
-          className="flex-1 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex-1 rounded-full border border-[#b9e2e1] bg-white px-4 py-2.5 font-bold text-[#0d4a48] text-sm transition-transform hover:-translate-y-0.5 hover:bg-[#eef8f8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5fb7b9]"
           onClick={onAdjust}
           type="button"
         >
           Popraw adnotacje
         </button>
         <button
-          className="flex-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex-1 rounded-full bg-[#5fb7b9] px-4 py-2.5 font-bold text-sm text-white shadow-[0_12px_30px_rgba(95,183,185,0.3)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5fb7b9]"
           onClick={onRetry}
           type="button"
         >
@@ -399,7 +406,7 @@ function ComparisonStatsInteractive({
   onHighlight,
 }: ComparisonStatsInteractiveProps) {
   const { matched, userOnlyYellow, modelOnlyYellow } = comparison;
-  const totalUserYellow = matched.length + userOnlyYellow.length;
+  const totalComparableUser = matched.length + userOnlyYellow.length;
   const totalModel = matched.length + modelOnlyYellow.length;
   const avgIou =
     matched.length > 0
@@ -437,9 +444,9 @@ function ComparisonStatsInteractive({
   }
 
   return (
-    <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
-      <div className="px-4 py-3 border-b border-border bg-muted/30">
-        <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+    <div className="overflow-hidden rounded-[2rem] border border-[#b9e2e1] bg-white shadow-[0_14px_40px_rgba(69,151,153,0.12)]">
+      <div className="border-[#b9e2e1] border-b bg-[#eef8f8] px-4 py-3">
+        <h3 className="font-bold text-[#0b7975] text-xs uppercase tracking-wide">
           Dane porównania
         </h3>
       </div>
@@ -448,54 +455,54 @@ function ComparisonStatsInteractive({
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4">
         <StatCard
           bg="bg-green-500/10"
-          color="text-green-600 dark:text-green-400"
+          color="text-green-600"
           label="Dopasowane"
           value={matched.length}
         />
         <StatCard
           bg="bg-orange-500/10"
-          color="text-orange-600 dark:text-orange-400"
+          color="text-orange-600"
           label="Tylko człowiek"
           value={userOnlyYellow.length}
         />
         <StatCard
           bg="bg-red-500/10"
-          color="text-red-600 dark:text-red-400"
+          color="text-red-600"
           label="Tylko model"
           value={modelOnlyYellow.length}
         />
         <StatCard
           bg="bg-blue-500/10"
-          color="text-blue-600 dark:text-blue-400"
+          color="text-blue-600"
           label="Inne klasy"
           value={comparison.otherUserAnnotations.length}
         />
       </div>
 
       {/* Totals */}
-      <div className="px-4 pb-3 text-xs text-muted-foreground space-y-1 border-t border-border pt-3">
+      <div className="space-y-1 border-[#b9e2e1] border-t px-4 pt-3 pb-3 text-[#4c7372] text-xs">
         <div className="flex justify-between">
           <span>Próg IoU</span>
-          <span className="font-mono font-medium text-foreground tabular-nums">
+          <span className="font-medium font-mono text-[#0d4a48] tabular-nums">
             0.30
           </span>
         </div>
         <div className="flex justify-between">
-          <span>Adnotacje Yellow globules (człowiek)</span>
-          <span className="font-mono font-medium text-foreground tabular-nums">
-            {totalUserYellow}
+          <span>Porównywane adnotacje człowieka</span>
+          <span className="font-medium font-mono text-[#0d4a48] tabular-nums">
+            {totalComparableUser}
           </span>
         </div>
         <div className="flex justify-between">
-          <span>Detekcje modelu (Yellow globules)</span>
-          <span className="font-mono font-medium text-foreground tabular-nums">
+          <span>Porównywane detekcje modelu</span>
+          <span className="font-medium font-mono text-[#0d4a48] tabular-nums">
             {totalModel}
           </span>
         </div>
         {avgIou !== null && (
           <div className="flex justify-between">
             <span>Średnie IoU</span>
-            <span className="font-mono font-medium text-foreground tabular-nums">
+            <span className="font-medium font-mono text-[#0d4a48] tabular-nums">
               {avgIou.toFixed(3)}
             </span>
           </div>
@@ -504,24 +511,24 @@ function ComparisonStatsInteractive({
 
       {/* Hover-to-highlight category table */}
       {rows.length > 0 && (
-        <div className="border-t border-border">
-          <p className="px-4 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+        <div className="border-[#b9e2e1] border-t">
+          <p className="px-4 pt-3 pb-1 font-bold text-[#4c7372] text-[10px] uppercase tracking-wide">
             Najedź na wiersz aby podświetlić na obrazku
           </p>
           <table className="w-full text-xs">
-            <thead className="bg-muted/30">
+            <thead className="bg-[#eef8f8]">
               <tr>
                 <th className="px-3 py-2 text-left font-medium">Klasa</th>
                 <th className="px-3 py-2 text-center font-medium">Źródło</th>
                 <th className="px-3 py-2 text-right font-medium">Liczba</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-[#d6eeee]">
               {rows.map((row) => {
                 const color = CLASS_COLORS[row.label] ?? "#94a3b8";
                 return (
                   <tr
-                    className="hover:bg-muted/40 transition-colors cursor-pointer"
+                    className="cursor-pointer transition-colors hover:bg-[#f7ffff]"
                     key={row.key}
                     onMouseEnter={() => {
                       onHighlight(row.key);
@@ -540,7 +547,7 @@ function ComparisonStatsInteractive({
                         {getLabelDisplay(row.label)}
                       </div>
                     </td>
-                    <td className="px-3 py-2 text-center text-muted-foreground">
+                    <td className="px-3 py-2 text-center text-[#4c7372]">
                       {row.source === "human" ? "Człowiek" : "Model AI"}
                     </td>
                     <td className="px-3 py-2 text-right font-mono tabular-nums">
@@ -556,13 +563,13 @@ function ComparisonStatsInteractive({
 
       {/* Matched pairs detail */}
       {matched.length > 0 && (
-        <div className="border-t border-border">
-          <p className="px-4 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+        <div className="border-[#b9e2e1] border-t">
+          <p className="px-4 pt-3 pb-1 font-bold text-[#4c7372] text-[10px] uppercase tracking-wide">
             Dopasowane pary (IoU ≥ 0.30)
           </p>
           <div className="overflow-hidden">
             <table className="w-full text-xs">
-              <thead className="bg-muted/30">
+              <thead className="bg-[#eef8f8]">
                 <tr>
                   <th className="px-3 py-2 text-left font-medium">#</th>
                   <th className="px-3 py-2 text-left font-medium">Etykieta</th>
@@ -570,10 +577,10 @@ function ComparisonStatsInteractive({
                   <th className="px-3 py-2 text-right font-medium">Pewność</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
+              <tbody className="divide-y divide-[#d6eeee]">
                 {matched.map((m, i) => (
                   <tr
-                    className="hover:bg-muted/30 transition-colors"
+                    className="transition-colors hover:bg-[#f7ffff]"
                     key={`match-${m.userBox.label}-${m.iou.toFixed(4)}-${i}`}
                     onMouseEnter={() => {
                       onHighlight(`${m.userBox.label}|human`);
@@ -582,11 +589,9 @@ function ComparisonStatsInteractive({
                       onHighlight(null);
                     }}
                   >
-                    <td className="px-3 py-1.5 text-muted-foreground">
-                      {i + 1}
-                    </td>
+                    <td className="px-3 py-1.5 text-[#4c7372]">{i + 1}</td>
                     <td className="px-3 py-1.5">{m.userBox.label}</td>
-                    <td className="px-3 py-1.5 text-right font-mono tabular-nums text-green-600 dark:text-green-400">
+                    <td className="px-3 py-1.5 text-right font-mono text-green-600 tabular-nums">
                       {m.iou.toFixed(3)}
                     </td>
                     <td className="px-3 py-1.5 text-right font-mono tabular-nums">
@@ -615,11 +620,13 @@ function StatCard({
   bg: string;
 }) {
   return (
-    <div className={`rounded-lg p-3 ${bg} flex flex-col items-center gap-1`}>
+    <div
+      className={`rounded-[1rem] p-3 ${bg} flex flex-col items-center gap-1`}
+    >
       <span className={`text-2xl font-bold tabular-nums ${color}`}>
         {value}
       </span>
-      <span className="text-xs text-muted-foreground text-center leading-tight">
+      <span className="text-center text-[#4c7372] text-xs leading-tight">
         {label}
       </span>
     </div>

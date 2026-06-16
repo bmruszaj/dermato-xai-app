@@ -1,36 +1,44 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Authentication", () => {
-  test("login page renders correctly", async ({ page }) => {
-    await page.goto("/login");
-    await expect(page.getByLabel("Email")).toBeVisible();
-    await expect(page.getByLabel("Password")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Sign in" })).toBeVisible();
+test.describe("Public release flow", () => {
+  test("landing page renders public project card", async ({ page }) => {
+    await page.goto("/");
+
+    await expect(
+      page.getByRole("heading", {
+        name: "Wyjaśnialne wsparcie adnotacji obrazów dermoskopowych",
+      })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Wypróbuj demo" }).first()
+    ).toBeVisible();
   });
 
-  test("register page renders correctly", async ({ page }) => {
-    await page.goto("/register");
-    await expect(page.getByLabel("Email")).toBeVisible();
-    await expect(page.getByLabel("Password")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Sign up" })).toBeVisible();
-  });
-
-  test("can navigate from login to register", async ({ page }) => {
-    await page.goto("/login");
-    await page.getByRole("link", { name: "Sign up" }).click();
-    await expect(page).toHaveURL("/register");
-  });
-
-  test("can navigate from register to login", async ({ page }) => {
-    await page.goto("/register");
-    await page.getByRole("link", { name: "Sign in" }).click();
-    await expect(page).toHaveURL("/login");
-  });
-
-  test("unauthenticated user is redirected to /login from /annotate", async ({
-    page,
-  }) => {
+  test("annotate page is available without login", async ({ page }) => {
     await page.goto("/annotate");
-    await expect(page).toHaveURL("/login");
+
+    await expect(page).toHaveURL("/annotate");
+    await expect(
+      page.getByRole("heading", { name: "Wybierz obraz do demo" })
+    ).toBeVisible();
+    await expect(page.getByText("Wybierz obraz przykładowy")).toBeVisible();
+  });
+
+  test("sample image starts annotation flow", async ({ page }) => {
+    await page.route("**/api/predict", async (route) => {
+      await route.fulfill({
+        contentType: "application/json",
+        json: { predictions: [] },
+        status: 200,
+      });
+    });
+
+    await page.goto("/annotate");
+
+    await page.getByRole("button", { name: /ISIC 68/ }).click();
+    await expect(
+      page.getByRole("heading", { name: "Adnotuj obraz" })
+    ).toBeVisible();
+    await expect(page.getByText("Zatwierdź adnotacje")).toBeVisible();
   });
 });

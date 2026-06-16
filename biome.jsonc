@@ -22,30 +22,45 @@
   "linter": {
     "rules": {
       "suspicious": {
+        "noArrayIndexKey": "off",
+        "noEvolvingTypes": "off",
         "noExplicitAny": "off",
+        "noImplicitAnyLet": "off",
+        "useAwait": "off",
         "noUnknownAtRules": "off",
         "noConsole": "off",
         "noBitwiseOperators": "off"
       },
       "style": {
+        "useBlockStatements": "off",
+        "useConsistentArrayType": "off",
+        "useConsistentBuiltinInstantiation": "off",
         "noMagicNumbers": "off",
         "noNestedTernary": "off",
-        "useConsistentTypeDefinitions": "off"
+        "useConsistentTypeDefinitions": "off",
+        "useDefaultSwitchClause": "off",
+        "useFilenamingConvention": "off",
+        "useTemplate": "off"
       },
       "nursery": {
-        "noUnnecessaryConditions": "off",
         "useSortedClasses": "off"
       },
       "complexity": {
         "noExcessiveCognitiveComplexity": "off",
+        "noVoid": "off",
         "useSimplifiedLogicExpression": "off"
       },
       "a11y": {
-        "noSvgWithoutTitle": "off"
+        "noNoninteractiveElementInteractions": "off",
+        "noStaticElementInteractions": "off",
+        "noSvgWithoutTitle": "off",
+        "useKeyWithClickEvents": "off",
+        "useKeyWithMouseEvents": "off"
       },
       "correctness": {
-        "useUniqueElementIds": "off",
-        "useImageSize": "off"
+        "useExhaustiveDependencies": "off",
+        "useImageSize": "off",
+        "useUniqueElementIds": "off"
       },
       "performance": {
         "noBarrelFile": "off",

@@ -17,7 +17,7 @@ export const AnnotationCanvas = React.forwardRef<
   AnnotationCanvasProps
 >(function AnnotationCanvas({ imageUrl, onChange }, ref) {
   return (
-    <div className="w-full overflow-auto rounded-lg border border-border bg-black">
+    <div className="w-full overflow-auto rounded-[1.5rem] bg-[#0d4a48]">
       <div className="inline-block min-w-full">
         <BBoxAnnotator
           borderWidth={2}

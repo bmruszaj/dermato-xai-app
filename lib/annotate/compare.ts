@@ -4,7 +4,7 @@ import type {
   MatchedPair,
   ModelPrediction,
 } from "./types";
-import { IOU_THRESHOLD, MODEL_CLASS } from "./types";
+import { ANNOTATION_LABELS, IOU_THRESHOLD } from "./types";
 
 /** Normalized box in 0-1 coordinate space. */
 interface NormBox {
@@ -57,8 +57,7 @@ function computeIou(a: NormBox, b: NormBox): number {
 
 /**
  * Compare user annotations against model predictions.
- * Only "Yellow globlues (ulcer)" user boxes are compared against the model.
- * All other user boxes are passed through as context for the LLM.
+ * User boxes are matched only against same-label model predictions.
  */
 export function compareAnnotations(
   userBoxes: AnnotationBox[],
@@ -66,13 +65,23 @@ export function compareAnnotations(
   imageDimensions: { width: number; height: number }
 ): ComparisonResult {
   const { width: imgW, height: imgH } = imageDimensions;
+  const comparableLabels = new Set<string>(ANNOTATION_LABELS);
 
-  const yellowBoxes = userBoxes.filter((b) => b.label === MODEL_CLASS);
-  const otherUserAnnotations = userBoxes.filter((b) => b.label !== MODEL_CLASS);
+  const comparableUserBoxes = userBoxes.filter((b) =>
+    comparableLabels.has(b.label)
+  );
+  const otherUserAnnotations = userBoxes.filter(
+    (b) => !comparableLabels.has(b.label)
+  );
+  const comparableModelPredictions = modelPredictions.filter((p) =>
+    comparableLabels.has(p.label)
+  );
 
   // Convert to normalized 0-1 space
-  const normUserBoxes = yellowBoxes.map((b) => toNormFromPixels(b, imgW, imgH));
-  const normModelBoxes = modelPredictions.map(toNormFromPercent);
+  const normUserBoxes = comparableUserBoxes.map((b) =>
+    toNormFromPixels(b, imgW, imgH)
+  );
+  const normModelBoxes = comparableModelPredictions.map(toNormFromPercent);
 
   // Greedy matching: for each model box find best-IoU user box >= threshold
   const matchedUserIndices = new Set<number>();
@@ -83,6 +92,11 @@ export function compareAnnotations(
   const candidates: Array<{ ui: number; mi: number; iou: number }> = [];
   for (let ui = 0; ui < normUserBoxes.length; ui++) {
     for (let mi = 0; mi < normModelBoxes.length; mi++) {
+      if (
+        comparableUserBoxes[ui].label !== comparableModelPredictions[mi].label
+      ) {
+        continue;
+      }
       const iou = computeIou(normUserBoxes[ui], normModelBoxes[mi]);
       if (iou >= IOU_THRESHOLD) {
         candidates.push({ ui, mi, iou });
@@ -96,16 +110,16 @@ export function compareAnnotations(
     matchedUserIndices.add(ui);
     matchedModelIndices.add(mi);
     matched.push({
-      userBox: yellowBoxes[ui],
-      modelBox: modelPredictions[mi],
+      userBox: comparableUserBoxes[ui],
+      modelBox: comparableModelPredictions[mi],
       iou,
     });
   }
 
-  const userOnlyYellow = yellowBoxes.filter(
+  const userOnlyYellow = comparableUserBoxes.filter(
     (_, i) => !matchedUserIndices.has(i)
   );
-  const modelOnlyYellow = modelPredictions.filter(
+  const modelOnlyYellow = comparableModelPredictions.filter(
     (_, i) => !matchedModelIndices.has(i)
   );
 

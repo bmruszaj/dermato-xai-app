@@ -1,28 +1,38 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Quicksand } from "next/font/google";
 import { Toaster } from "sonner";
-import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import "./globals.css";
-import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dermato-xai-app.vercel.app"),
-  title: "Dermato XAI — Annotacja dermoskopowa",
-  description: "Narzędzie do adnotacji obrazów dermoskopowych ze wsparciem AI.",
+  title: {
+    default: "Dermato XAI — dermatoskopia wyjaśnialna",
+    template: "%s | Dermato XAI",
+  },
+  description:
+    "Publiczna wizytówka i demo projektu Dermato XAI: edukacyjne adnotacje dermoskopowe z porównaniem do modeli AI.",
+  openGraph: {
+    title: "Dermato XAI — dermatoskopia wyjaśnialna",
+    description:
+      "Wizytówka projektu AI Forum 2026 oraz demo adnotacji dermoskopowych ze wsparciem modeli AI.",
+    type: "website",
+  },
 };
 
 export const viewport = {
   maximumScale: 1,
+  themeColor: "hsl(0 0% 100%)",
 };
 
-const geist = Geist({
+const quicksand = Quicksand({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-geist",
+  weight: ["400", "500", "600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -31,59 +41,16 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 });
 
-const LIGHT_THEME_COLOR = "hsl(0 0% 100%)";
-const DARK_THEME_COLOR = "hsl(240deg 10% 3.92%)";
-const THEME_COLOR_SCRIPT = `\
-(function() {
-  var html = document.documentElement;
-  var meta = document.querySelector('meta[name="theme-color"]');
-  if (!meta) {
-    meta = document.createElement('meta');
-    meta.setAttribute('name', 'theme-color');
-    document.head.appendChild(meta);
-  }
-  function updateThemeColor() {
-    var isDark = html.classList.contains('dark');
-    meta.setAttribute('content', isDark ? '${DARK_THEME_COLOR}' : '${LIGHT_THEME_COLOR}');
-  }
-  var observer = new MutationObserver(updateThemeColor);
-  observer.observe(html, { attributes: true, attributeFilter: ['class'] });
-  updateThemeColor();
-})();`;
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      className={`${geist.variable} ${geistMono.variable}`}
-      lang="en"
-      suppressHydrationWarning
-    >
-      <head>
-        <script
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: "Required"
-          dangerouslySetInnerHTML={{
-            __html: THEME_COLOR_SCRIPT,
-          }}
-        />
-      </head>
+    <html className={`${quicksand.variable} ${geistMono.variable}`} lang="pl">
       <body className="antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          disableTransitionOnChange
-          enableSystem
-        >
-          <SessionProvider
-            basePath={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/auth`}
-          >
-            <TooltipProvider>{children}</TooltipProvider>
-            <Toaster position="top-right" />
-          </SessionProvider>
-        </ThemeProvider>
+        <TooltipProvider>{children}</TooltipProvider>
+        <Toaster position="top-right" />
         <Analytics />
         <SpeedInsights />
       </body>

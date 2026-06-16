@@ -49,15 +49,15 @@ export function MatrixToggles({
   };
 
   return (
-    <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+    <div className="overflow-hidden rounded-[2rem] border border-[#b9e2e1] bg-white shadow-[0_14px_40px_rgba(69,151,153,0.12)]">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
-        <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+      <div className="flex items-center justify-between border-[#b9e2e1] border-b bg-[#eef8f8] px-4 py-3">
+        <span className="font-bold text-[#0b7975] text-xs uppercase tracking-wide">
           Filtry widoczności
         </span>
         <div className="flex gap-2">
           <button
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors focus-visible:ring-2 focus-visible:ring-ring rounded px-1"
+            className="rounded px-1 text-[#4c7372] text-xs transition-colors hover:text-[#0d4a48] focus-visible:ring-2 focus-visible:ring-[#5fb7b9]"
             onClick={() => {
               setAll(true, true);
             }}
@@ -65,9 +65,9 @@ export function MatrixToggles({
           >
             Zaznacz wszystko
           </button>
-          <span className="text-muted-foreground/40">|</span>
+          <span className="text-[#4c7372]/40">|</span>
           <button
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors focus-visible:ring-2 focus-visible:ring-ring rounded px-1"
+            className="rounded px-1 text-[#4c7372] text-xs transition-colors hover:text-[#0d4a48] focus-visible:ring-2 focus-visible:ring-[#5fb7b9]"
             onClick={() => {
               setAll(false, false);
             }}
@@ -81,18 +81,18 @@ export function MatrixToggles({
       {/* Table */}
       <table className="w-full text-xs">
         <thead>
-          <tr className="border-b border-border">
-            <th className="px-3 py-2 text-left font-medium text-muted-foreground w-full">
+          <tr className="border-[#b9e2e1] border-b">
+            <th className="w-full px-3 py-2 text-left font-medium text-[#4c7372]">
               Klasa
             </th>
-            <th className="px-3 py-2 text-center font-medium text-muted-foreground whitespace-nowrap">
+            <th className="whitespace-nowrap px-3 py-2 text-center font-medium text-[#4c7372]">
               <div className="flex flex-col items-center gap-1">
                 <span>Człowiek</span>
                 <span className="text-[10px] opacity-60">── ciągła</span>
                 <input
                   aria-label="Pokaż wszystkie adnotacje człowieka"
                   checked={allHumanOn}
-                  className="cursor-pointer accent-foreground"
+                  className="cursor-pointer accent-[#5fb7b9]"
                   onChange={(e) => {
                     toggleColumn("human", e.target.checked);
                   }}
@@ -100,14 +100,14 @@ export function MatrixToggles({
                 />
               </div>
             </th>
-            <th className="px-3 py-2 text-center font-medium text-muted-foreground whitespace-nowrap">
+            <th className="whitespace-nowrap px-3 py-2 text-center font-medium text-[#4c7372]">
               <div className="flex flex-col items-center gap-1">
                 <span>Model AI</span>
                 <span className="text-[10px] opacity-60">╌╌ przeryw.</span>
                 <input
                   aria-label="Pokaż wszystkie adnotacje modelu AI"
                   checked={allModelOn}
-                  className="cursor-pointer accent-foreground"
+                  className="cursor-pointer accent-[#5fb7b9]"
                   onChange={(e) => {
                     toggleColumn("model", e.target.checked);
                   }}
@@ -117,7 +117,7 @@ export function MatrixToggles({
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-border">
+        <tbody className="divide-y divide-[#d6eeee]">
           {ALL_LABELS.map((label) => {
             const color = CLASS_COLORS[label] ?? "#94a3b8";
             const humanOn = filters[label]?.human !== false;
@@ -126,7 +126,7 @@ export function MatrixToggles({
             const modelCount = counts?.[label]?.model ?? 0;
 
             return (
-              <tr className="hover:bg-muted/30 transition-colors" key={label}>
+              <tr className="transition-colors hover:bg-[#f7ffff]" key={label}>
                 <td className="px-3 py-2">
                   <div className="flex items-center gap-2">
                     <span
@@ -134,7 +134,7 @@ export function MatrixToggles({
                       className="inline-block w-3 h-3 rounded-sm flex-shrink-0"
                       style={{ backgroundColor: color }}
                     />
-                    <span className="text-foreground">
+                    <span className="text-[#0d4a48]">
                       {getLabelDisplay(label)}
                     </span>
                   </div>
@@ -144,14 +144,14 @@ export function MatrixToggles({
                     <input
                       aria-label={`Pokaż ${getLabelDisplay(label)} — Człowiek`}
                       checked={humanOn}
-                      className="cursor-pointer accent-foreground"
+                      className="cursor-pointer accent-[#5fb7b9]"
                       onChange={() => {
                         toggle(label, "human");
                       }}
                       type="checkbox"
                     />
                     {humanCount > 0 && (
-                      <span className="text-[10px] text-muted-foreground font-mono">
+                      <span className="font-mono text-[#4c7372] text-[10px]">
                         {humanCount}
                       </span>
                     )}
@@ -162,14 +162,14 @@ export function MatrixToggles({
                     <input
                       aria-label={`Pokaż ${getLabelDisplay(label)} — Model AI`}
                       checked={modelOn}
-                      className="cursor-pointer accent-foreground"
+                      className="cursor-pointer accent-[#5fb7b9]"
                       onChange={() => {
                         toggle(label, "model");
                       }}
                       type="checkbox"
                     />
                     {modelCount > 0 && (
-                      <span className="text-[10px] text-muted-foreground font-mono">
+                      <span className="font-mono text-[#4c7372] text-[10px]">
                         {modelCount}
                       </span>
                     )}

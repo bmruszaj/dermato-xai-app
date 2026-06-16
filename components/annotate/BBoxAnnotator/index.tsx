@@ -96,39 +96,34 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
       };
     }, [url]);
 
-    const crop = (pageX: number, pageY: number) => {
+    const crop = (clientX: number, clientY: number) => {
+      const rect = bBoxAnnotatorRef.current?.getBoundingClientRect();
       return {
         x:
-          bBoxAnnotatorRef.current && imageFrameStyle.width
+          rect && imageFrameStyle.width
             ? Math.min(
-                Math.max(
-                  Math.round(pageX - bBoxAnnotatorRef.current.offsetLeft),
-                  0
-                ),
+                Math.max(Math.round(clientX - rect.left), 0),
                 Math.round(imageFrameStyle.width - 1)
               )
             : 0,
         y:
-          bBoxAnnotatorRef.current && imageFrameStyle.height
+          rect && imageFrameStyle.height
             ? Math.min(
-                Math.max(
-                  Math.round(pageY - bBoxAnnotatorRef.current.offsetTop),
-                  0
-                ),
+                Math.max(Math.round(clientY - rect.top), 0),
                 Math.round(imageFrameStyle.height - 1)
               )
             : 0,
       };
     };
-    const updateRectangle = (pageX: number, pageY: number) => {
-      setPointer(crop(pageX, pageY));
+    const updateRectangle = (clientX: number, clientY: number) => {
+      setPointer(crop(clientX, clientY));
     };
 
     useEffect(() => {
       const mouseMoveHandler = (e: MouseEvent) => {
         switch (status) {
           case "hold":
-            updateRectangle(e.pageX, e.pageY);
+            updateRectangle(e.clientX, e.clientY);
         }
       };
       window.addEventListener("mousemove", mouseMoveHandler);
@@ -139,7 +134,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
       const mouseUpHandler = (e: MouseEvent) => {
         switch (status) {
           case "hold":
-            updateRectangle(e.pageX, e.pageY);
+            updateRectangle(e.clientX, e.clientY);
             setStatus("input");
             labelInputRef.current?.focus();
         }
@@ -173,8 +168,8 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
         case "free":
         case "input":
           if (e.button !== 2) {
-            setOffset(crop(e.pageX, e.pageY));
-            setPointer(crop(e.pageX, e.pageY));
+            setOffset(crop(e.clientX, e.clientY));
+            setPointer(crop(e.clientX, e.clientY));
             setStatus("hold");
             setSelectedId(null);
             setEditingLabelForId(null);
@@ -205,7 +200,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
     useEffect(() => {
       if (!dragging) return;
       const onMove = (e: MouseEvent) => {
-        const pos = crop(e.pageX, e.pageY);
+        const pos = crop(e.clientX, e.clientY);
         setEntries((prev) =>
           prev.map((entry) => {
             if (entry.id !== dragging.id) return entry;
@@ -241,7 +236,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
     useEffect(() => {
       if (!resizing) return;
       const onMove = (e: MouseEvent) => {
-        const pos = crop(e.pageX, e.pageY);
+        const pos = crop(e.clientX, e.clientY);
         const imgW = imageFrameStyle.width || 0;
         const imgH = imageFrameStyle.height || 0;
         const minW = 1;
@@ -435,7 +430,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
               onMouseDown={(e) => {
                 e.stopPropagation();
                 setSelectedId(entry.id);
-                const pos = crop(e.pageX, e.pageY);
+                const pos = crop(e.clientX, e.clientY);
                 setDragging({
                   id: entry.id,
                   offsetX: pos.x - entry.left,
@@ -525,7 +520,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
                   <div
                     onMouseDown={(e) => {
                       e.stopPropagation();
-                      const pos = crop(e.pageX, e.pageY);
+                      const pos = crop(e.clientX, e.clientY);
                       setResizing({
                         id: entry.id,
                         handle: "nw",
@@ -553,7 +548,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
                   <div
                     onMouseDown={(e) => {
                       e.stopPropagation();
-                      const pos = crop(e.pageX, e.pageY);
+                      const pos = crop(e.clientX, e.clientY);
                       setResizing({
                         id: entry.id,
                         handle: "n",
@@ -582,7 +577,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
                   <div
                     onMouseDown={(e) => {
                       e.stopPropagation();
-                      const pos = crop(e.pageX, e.pageY);
+                      const pos = crop(e.clientX, e.clientY);
                       setResizing({
                         id: entry.id,
                         handle: "ne",
@@ -610,7 +605,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
                   <div
                     onMouseDown={(e) => {
                       e.stopPropagation();
-                      const pos = crop(e.pageX, e.pageY);
+                      const pos = crop(e.clientX, e.clientY);
                       setResizing({
                         id: entry.id,
                         handle: "e",
@@ -639,7 +634,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
                   <div
                     onMouseDown={(e) => {
                       e.stopPropagation();
-                      const pos = crop(e.pageX, e.pageY);
+                      const pos = crop(e.clientX, e.clientY);
                       setResizing({
                         id: entry.id,
                         handle: "se",
@@ -667,7 +662,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
                   <div
                     onMouseDown={(e) => {
                       e.stopPropagation();
-                      const pos = crop(e.pageX, e.pageY);
+                      const pos = crop(e.clientX, e.clientY);
                       setResizing({
                         id: entry.id,
                         handle: "s",
@@ -696,7 +691,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
                   <div
                     onMouseDown={(e) => {
                       e.stopPropagation();
-                      const pos = crop(e.pageX, e.pageY);
+                      const pos = crop(e.clientX, e.clientY);
                       setResizing({
                         id: entry.id,
                         handle: "sw",
@@ -724,7 +719,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(
                   <div
                     onMouseDown={(e) => {
                       e.stopPropagation();
-                      const pos = crop(e.pageX, e.pageY);
+                      const pos = crop(e.clientX, e.clientY);
                       setResizing({
                         id: entry.id,
                         handle: "w",

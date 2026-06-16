@@ -2,6 +2,10 @@ import { withBotId } from "botid/next/config";
 import type { NextConfig } from "next";
 
 const basePath = process.env.IS_DEMO === "1" ? "/demo" : "";
+const annotationStructureSet =
+  process.env.ANNOTATION_STRUCTURE_SET ??
+  process.env.NEXT_PUBLIC_ANNOTATION_STRUCTURE_SET ??
+  "";
 
 const nextConfig: NextConfig = {
   ...(basePath
@@ -20,6 +24,7 @@ const nextConfig: NextConfig = {
     : {}),
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
+    NEXT_PUBLIC_ANNOTATION_STRUCTURE_SET: annotationStructureSet,
   },
   cacheComponents: true,
   devIndicators: false,

@@ -154,12 +154,12 @@ export function ComparisonOverlay({
   return (
     <div className="w-full" ref={containerRef}>
       <canvas
-        className="w-full rounded-lg border border-border"
+        className="w-full rounded-[1.25rem] border border-[#b9e2e1]"
         ref={canvasRef}
         style={{ display: "block" }}
       />
       {/* Legend */}
-      <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-muted-foreground">
+      <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-[#4c7372] text-xs">
         <LegendItem
           color="#3b82f6"
           label="Adnotacje użytkownika (inne klasy)"
