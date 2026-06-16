@@ -454,9 +454,9 @@ export default function AnnotatePage() {
                   Adnotuj obraz
                 </h2>
                 <p className="max-w-3xl font-medium text-[#4c7372] text-sm leading-7">
-                  Przeciągnij prostokąt nad strukturą dermoskopową i wybierz
-                  etykietę. Kolor oznacza klasę; po zatwierdzeniu linia ciągła
-                  pokaże Twoje adnotacje, a przerywana detekcje modelu.
+                  Wybierz klasę, kliknij pierwszy róg struktury, a potem drugi.
+                  Dostępne etykiety odpowiadają klasom wybranym w poprzednim
+                  kroku.
                 </p>
               </div>
               <MlStatusBadge
@@ -468,6 +468,7 @@ export default function AnnotatePage() {
             <div className="overflow-hidden rounded-[2rem] border-8 border-white bg-white shadow-[0_24px_70px_rgba(69,151,153,0.2)]">
               <AnnotationCanvas
                 imageUrl={imageDataUri}
+                labels={selectedPredictionLabels}
                 onChange={handleAnnotationChange}
                 ref={annotatorRef}
               />

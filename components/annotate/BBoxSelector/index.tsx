@@ -14,6 +14,7 @@ const BBoxSelector: React.FC<Props> = ({ rectangle, borderWidth = 2 }) => {
         top: `${rectangle.top - borderWidth}px`,
         width: `${rectangle.width}px`,
         height: `${rectangle.height}px`,
+        pointerEvents: "none",
       }}
     />
   );
