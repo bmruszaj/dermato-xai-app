@@ -55,3 +55,38 @@ pnpm test
 ```
 
 `pnpm check` uruchamia Ultracite/Biome i wymaga poprawnej konfiguracji `biome.jsonc`.
+
+## Contributing / Local Development
+
+Prerequisites:
+
+- Node.js 20+
+- pnpm
+
+Setup:
+
+```bash
+pnpm install
+cp .env.example .env.local
+```
+
+Fill in `.env.local` with the required API keys. For the full demo you need
+`CLARIN_API_KEY` and `MODAL_RFDETR_URL`. `CLARIN_MODEL` is optional and defaults
+to `llama3.3`.
+
+Run the app:
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). The public demo is
+available at `/annotate`.
+
+Before opening a pull request, run:
+
+```bash
+pnpm exec tsc --noEmit
+pnpm check
+pnpm build
+```
