@@ -1,0 +1,287 @@
+\documentclass[final]{beamer}
+
+% Better-poster inspired A0 portrait.
+% Compile on Overleaf with pdfLaTeX or XeLaTeX.
+\usepackage[size=a0,orientation=portrait,scale=1.12]{beamerposter}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{graphicx}
+\usepackage{ragged2e}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+\usepackage{qrcode}
+\usepackage{fontawesome5}
+\usepackage[sfdefault]{quicksand}
+
+\usetikzlibrary{positioning,shapes.geometric}
+
+\definecolor{DeepTeal}{HTML}{0D4A48}
+\definecolor{MainTeal}{HTML}{5FB7B9}
+\definecolor{DarkTeal}{HTML}{0B7975}
+\definecolor{SoftAqua}{HTML}{A9DADA}
+\definecolor{PaleAqua}{HTML}{EEF8F8}
+\definecolor{MutedTeal}{HTML}{4C7372}
+\definecolor{AccentViolet}{HTML}{9B5CFF}
+\definecolor{WarmYellow}{HTML}{FFF7DF}
+\definecolor{SoftRed}{HTML}{FFF1EF}
+
+\setbeamercolor{normal text}{fg=DeepTeal,bg=white}
+\setbeamertemplate{navigation symbols}{}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+
+\newcommand{\posterurl}{https://dermato-xai.vercel.app/}
+\newcommand{\maintakeaway}{Demo uczy w 30 sekund, gdzie człowiek i model AI widzą te same struktury dermoskopowe, a gdzie się rozmijają.}
+
+\tcbset{
+  softcard/.style={
+    enhanced,
+    colback=white,
+    colframe=SoftAqua,
+    arc=14mm,
+    boxrule=1.3pt,
+    left=14mm,
+    right=14mm,
+    top=11mm,
+    bottom=11mm,
+    drop fuzzy shadow={black!8!white},
+  },
+  tinycard/.style={
+    enhanced,
+    colback=PaleAqua,
+    colframe=PaleAqua,
+    arc=10mm,
+    boxrule=0pt,
+    left=10mm,
+    right=10mm,
+    top=8mm,
+    bottom=8mm,
+  },
+  herocard/.style={
+    enhanced,
+    colback=MainTeal,
+    colframe=MainTeal,
+    coltext=white,
+    arc=22mm,
+    boxrule=0pt,
+    left=26mm,
+    right=26mm,
+    top=24mm,
+    bottom=24mm,
+    drop fuzzy shadow={MainTeal!35!white},
+  }
+}
+
+\newcommand{\miniheading}[1]{{\Large\bfseries\color{DarkTeal}#1}}
+\newcommand{\supportline}[2]{
+  \begin{tcolorbox}[tinycard,width=\linewidth]
+    {\bfseries #1}\\[-0.1em]
+    {\color{MutedTeal}#2}
+  \end{tcolorbox}
+}
+
+\newcommand{\stepcircle}[2]{
+  \begin{tikzpicture}[baseline=(n.base)]
+    \node[
+      circle,
+      fill=MainTeal,
+      text=white,
+      minimum size=1.35cm,
+      font=\bfseries\Large
+    ] (n) {#1};
+    \node[
+      right=0.45cm of n,
+      text=DeepTeal,
+      align=left,
+      font=\Large\bfseries
+    ] {#2};
+  \end{tikzpicture}
+}
+
+\begin{document}
+\begin{frame}[t]
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[SoftAqua!50]
+    ([xshift=-9cm,yshift=6cm]current page.north west)
+    ellipse [x radius=20cm, y radius=11cm, rotate=-18];
+  \fill[SoftAqua!35]
+    ([xshift=7cm,yshift=-5cm]current page.south east)
+    ellipse [x radius=22cm, y radius=13cm, rotate=-16];
+  \fill[AccentViolet!12]
+    ([xshift=-1cm,yshift=-18cm]current page.north east)
+    circle [radius=5cm];
+\end{tikzpicture}
+
+\vspace*{0.9cm}
+
+% Header is intentionally quiet: it should not compete with the takeaway.
+\begin{columns}[T,totalwidth=\textwidth]
+  \begin{column}{0.12\textwidth}
+    \begin{tcolorbox}[
+      enhanced,
+      colback=MainTeal,
+      colframe=MainTeal,
+      arc=14mm,
+      boxrule=0pt,
+      width=\linewidth,
+      height=5.7cm,
+      valign=center,
+      halign=center
+    ]
+      {\Huge\bfseries\color{white}DAI}
+    \end{tcolorbox}
+  \end{column}
+  \begin{column}{0.62\textwidth}
+    {\fontsize{54}{60}\selectfont\bfseries\color{DeepTeal}DermatoskopiaAI}\\[0.2em]
+    {\Large\color{MutedTeal}AI Forum 2026 \quad | \quad wyjaśnialne demo adnotacji dermoskopowych}
+  \end{column}
+  \begin{column}{0.20\textwidth}
+    \begin{tcolorbox}[softcard,width=\linewidth,halign=center]
+      {\Large\bfseries\color{DarkTeal}Zeskanuj demo}\\[0.35em]
+      \qrcode[height=4.6cm]{\posterurl}\\[0.35em]
+      {\footnotesize\color{MutedTeal}\texttt{\posterurl}}
+    \end{tcolorbox}
+  \end{column}
+\end{columns}
+
+\vspace{1.0cm}
+
+% Five-second layer: one sentence, casual language, huge contrast.
+\begin{tcolorbox}[herocard,width=\textwidth]
+  {\fontsize{74}{82}\selectfont\bfseries \maintakeaway}
+\end{tcolorbox}
+
+\vspace{1.1cm}
+
+\begin{columns}[T,totalwidth=\textwidth]
+  % Left sidebar: skim layer, deliberately short.
+  \begin{column}{0.22\textwidth}
+    \begin{tcolorbox}[softcard,width=\linewidth]
+      \miniheading{Po co to jest?}\\[0.4em]
+      {\Large
+      Zamiast pokazywać samą predykcję modelu, pokazujemy rozmowę:
+      co zaznaczył człowiek, co znalazł model i gdzie pojawia się różnica.}
+    \end{tcolorbox}
+
+    \vspace{0.7cm}
+
+    \begin{tcolorbox}[softcard,width=\linewidth]
+      \miniheading{Jak użyć?}\\[0.6em]
+      \stepcircle{1}{Wybierz obraz}\\[1.2em]
+      \stepcircle{2}{Zaznacz dwa rogi}\\[1.2em]
+      \stepcircle{3}{Porównaj z AI}
+    \end{tcolorbox}
+
+    \vspace{0.7cm}
+
+    \supportline{Zero logowania}{QR prowadzi prosto do publicznego demo.}
+    \supportline{Pięć klas}{Zestaw struktur można ograniczyć przed analizą.}
+    \supportline{Nie diagnozuje}{To narzędzie edukacyjno-badawcze.}
+  \end{column}
+
+  % Hero figure: the main thing people should look at after the sentence.
+  \begin{column}{0.53\textwidth}
+    \begin{tcolorbox}[softcard,width=\linewidth]
+      \begin{tikzpicture}
+        \draw[
+          rounded corners=24pt,
+          fill=PaleAqua,
+          draw=SoftAqua,
+          line width=2pt
+        ] (0,0) rectangle (\linewidth,33.2cm);
+
+        \node[
+          align=center,
+          text=DeepTeal,
+          font=\fontsize{34}{40}\selectfont\bfseries
+        ] at (0.5\linewidth,23.8cm)
+        {Tu wstaw jeden duży screenshot demo};
+
+        \node[
+          align=center,
+          text=MutedTeal,
+          font=\Large
+        ] at (0.5\linewidth,21.3cm)
+        {\texttt{\textbackslash includegraphics[width=\textbackslash linewidth]\{demo-screenshot.png\}}};
+
+        \draw[MainTeal, line width=8pt, rounded corners=10pt]
+          (8.2cm,12.0cm) rectangle (19.0cm,18.2cm);
+        \draw[SoftRed!80!red, line width=7pt, dashed, rounded corners=10pt]
+          (10.2cm,10.4cm) rectangle (21.2cm,16.6cm);
+
+        \node[
+          fill=white,
+          rounded corners=10pt,
+          inner sep=10pt,
+          text=DarkTeal,
+          font=\Large\bfseries
+        ] at (0.5\linewidth,7.0cm)
+        {Linia ciągła: człowiek \quad | \quad Linia przerywana: model AI};
+      \end{tikzpicture}
+    \end{tcolorbox}
+  \end{column}
+
+  % Right sidebar: presenter aid, short punchlines rather than paper sections.
+  \begin{column}{0.22\textwidth}
+    \begin{tcolorbox}[softcard,width=\linewidth]
+      \miniheading{Co dzieje się pod spodem?}\\[0.4em]
+      {\Large
+      Model RF-DETR + SAHI zwraca bounding boxy dla aktywnych klas.
+      Aplikacja porównuje je z adnotacją użytkownika przez IoU i pokazuje
+      dopasowania oraz rozbieżności.}
+    \end{tcolorbox}
+
+    \vspace{0.7cm}
+
+    \begin{tcolorbox}[softcard,width=\linewidth]
+      \miniheading{Dlaczego to jest XAI?}\\[0.4em]
+      {\Large
+      Użytkownik nie dostaje tylko odpowiedzi modelu. Widzi, gdzie model patrzy,
+      gdzie jest zgodny z człowiekiem i które struktury wymagają rozmowy.}
+    \end{tcolorbox}
+
+    \vspace{0.7cm}
+
+    \begin{tcolorbox}[softcard,width=\linewidth]
+      \miniheading{Najważniejsze ograniczenie}\\[0.4em]
+      {\Large
+      To demo nie jest diagnostyką. Ma pomagać zrozumieć różnice między
+      adnotacją człowieka i detekcją modelu, nie zastępować lekarza.}
+    \end{tcolorbox}
+  \end{column}
+\end{columns}
+
+\vspace{0.8cm}
+
+% Credits are findable but intentionally not attention-hijacking.
+\begin{tcolorbox}[
+  enhanced,
+  colback=PaleAqua,
+  colframe=PaleAqua,
+  arc=12mm,
+  boxrule=0pt,
+  width=\textwidth,
+  left=14mm,
+  right=14mm,
+  top=8mm,
+  bottom=8mm
+]
+  \begin{columns}[T,totalwidth=\textwidth]
+    \begin{column}{0.64\textwidth}
+      {\Large\bfseries\color{DeepTeal}
+      Marcel Masiukiewicz \quad Szymon Szafraniec \quad Bartłomiej Ruszaj \quad Marcin Tkocz}\\[0.25em]
+      {\color{MutedTeal}
+      Opieka i współpraca: Grzegorz Chodak, Przemysław Dolata, Piotr Giedziun,
+      Old Town Clinic, Dr hab. n. med. Jacek Calik, Lek. Karolina Gowans.}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \RaggedLeft
+      {\Large\bfseries\color{DarkTeal}\faIcon{globe}\ \texttt{\posterurl}}\\
+      {\color{MutedTeal}Pełne demo, przykładowe obrazy i porównanie z modelem.}
+    \end{column}
+  \end{columns}
+\end{tcolorbox}
+
+\end{frame}
+\end{document}

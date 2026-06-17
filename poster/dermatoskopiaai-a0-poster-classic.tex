@@ -1,0 +1,301 @@
+\documentclass[final]{beamer}
+
+% Compile on Overleaf with pdfLaTeX or XeLaTeX.
+% Poster size: A0 portrait.
+\usepackage[size=a0,orientation=portrait,scale=1.18]{beamerposter}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{graphicx}
+\usepackage{ragged2e}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+\usepackage{qrcode}
+\usepackage{fontawesome5}
+\usepackage[sfdefault]{quicksand}
+
+\usetikzlibrary{positioning,shapes.geometric}
+
+\definecolor{DeepTeal}{HTML}{0D4A48}
+\definecolor{MainTeal}{HTML}{5FB7B9}
+\definecolor{DarkTeal}{HTML}{0B7975}
+\definecolor{SoftAqua}{HTML}{A9DADA}
+\definecolor{PaleAqua}{HTML}{EEF8F8}
+\definecolor{MutedTeal}{HTML}{4C7372}
+\definecolor{AccentViolet}{HTML}{9B5CFF}
+\definecolor{WarmYellow}{HTML}{FFF7DF}
+
+\setbeamercolor{normal text}{fg=DeepTeal,bg=white}
+\setbeamercolor{block title}{fg=DeepTeal,bg=PaleAqua}
+\setbeamercolor{block body}{fg=DeepTeal,bg=white}
+\setbeamertemplate{navigation symbols}{}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+\newcommand{\posterurl}{https://dermato-xai.vercel.app/}
+\newcommand{\projecttitle}{DermatoskopiaAI}
+\newcommand{\projectsubtitle}{Wyjaśnialne demo adnotacji struktur dermoskopowych}
+
+\tcbset{
+  medicalcard/.style={
+    enhanced,
+    colback=white,
+    colframe=SoftAqua,
+    coltitle=DeepTeal,
+    arc=14mm,
+    boxrule=1.5pt,
+    left=18mm,
+    right=18mm,
+    top=14mm,
+    bottom=14mm,
+    drop fuzzy shadow={black!10!white},
+    fonttitle=\bfseries\Large,
+  },
+  tealcard/.style={
+    enhanced,
+    colback=MainTeal,
+    colframe=MainTeal,
+    coltext=white,
+    arc=18mm,
+    boxrule=0pt,
+    left=22mm,
+    right=22mm,
+    top=18mm,
+    bottom=18mm,
+    drop fuzzy shadow={MainTeal!35!white},
+  },
+  pill/.style={
+    enhanced,
+    colback=white,
+    colframe=SoftAqua,
+    arc=10mm,
+    boxrule=1pt,
+    left=10mm,
+    right=10mm,
+    top=5mm,
+    bottom=5mm,
+  }
+}
+
+\newcommand{\sectioncard}[2]{
+  \begin{tcolorbox}[medicalcard,title={#1}]
+    \justifying
+    #2
+  \end{tcolorbox}
+}
+
+\newcommand{\metricbox}[3]{
+  \begin{tcolorbox}[
+    enhanced,
+    colback=PaleAqua,
+    colframe=PaleAqua,
+    arc=10mm,
+    boxrule=0pt,
+    width=\linewidth,
+    left=10mm,
+    right=10mm,
+    top=8mm,
+    bottom=8mm
+  ]
+    {\Huge\bfseries\color{DarkTeal}#1}\\[0.2em]
+    {\Large\bfseries #2}\\
+    {\normalsize\color{MutedTeal}#3}
+  \end{tcolorbox}
+}
+
+\begin{document}
+\begin{frame}[t]
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[SoftAqua!55]
+    ([xshift=-8cm,yshift=5cm]current page.north west)
+    ellipse [x radius=18cm, y radius=10cm, rotate=-18];
+  \fill[SoftAqua!45]
+    ([xshift=8cm,yshift=-5cm]current page.south east)
+    ellipse [x radius=20cm, y radius=12cm, rotate=-18];
+  \fill[AccentViolet!13]
+    ([xshift=-2cm,yshift=-18cm]current page.north east)
+    circle [radius=5.5cm];
+\end{tikzpicture}
+
+\vspace*{1.0cm}
+\begin{columns}[T,totalwidth=\textwidth]
+  \begin{column}{0.12\textwidth}
+    \begin{tcolorbox}[
+      enhanced,
+      colback=MainTeal,
+      colframe=MainTeal,
+      arc=14mm,
+      boxrule=0pt,
+      width=\linewidth,
+      height=6.5cm,
+      valign=center,
+      halign=center
+    ]
+      {\Huge\bfseries\color{white}DAI}
+    \end{tcolorbox}
+  \end{column}
+  \begin{column}{0.68\textwidth}
+    {\fontsize{72}{78}\selectfont\bfseries\color{DeepTeal}\projecttitle}\\[0.15em]
+    {\fontsize{34}{40}\selectfont\bfseries\color{DarkTeal}\projectsubtitle}\\[0.25em]
+    {\Large\color{MutedTeal}AI Forum 2026 \quad | \quad Publiczna wizytówka i demo projektu}
+  \end{column}
+  \begin{column}{0.16\textwidth}
+    \begin{tcolorbox}[medicalcard,width=\linewidth,halign=center]
+      {\Large\bfseries Demo}\\[0.6em]
+      \qrcode[height=5.2cm]{\posterurl}\\[0.6em]
+      {\small\color{MutedTeal}\texttt{\posterurl}}
+    \end{tcolorbox}
+  \end{column}
+\end{columns}
+
+\vspace{1cm}
+
+\begin{tcolorbox}[tealcard,width=\textwidth]
+  {\fontsize{36}{42}\selectfont\bfseries
+  Jak człowiek i model AI różnią się w oznaczaniu struktur dermoskopowych?}\\[0.35em]
+  {\Large
+  Plakat pokazuje działający przepływ: użytkownik zaznacza struktury na obrazie,
+  model RF-DETR + SAHI wykonuje detekcję, a aplikacja porównuje obie adnotacje
+  przez nakładkę, statystyki i edukacyjny feedback. Narzędzie ma charakter
+  badawczo-edukacyjny i nie zastępuje konsultacji lekarskiej.}
+\end{tcolorbox}
+
+\vspace{1cm}
+
+\begin{columns}[T,totalwidth=\textwidth]
+  \begin{column}{0.32\textwidth}
+    \sectioncard{Problem}{
+      Dermoskopia wymaga rozpoznawania subtelnych struktur wizualnych.
+      W projekcie koncentrujemy się na klasach takich jak yellow globules,
+      blue-gray globules, rosettes, milia-like cyst i MAY globules.
+
+      \vspace{0.4em}
+      \textbf{Wyzwanie:} samo pokazanie predykcji modelu nie wyjaśnia, gdzie
+      człowiek zgadza się z modelem, a gdzie pojawia się różnica.
+    }
+
+    \sectioncard{Cel demo}{
+      \begin{itemize}
+        \item umożliwić szybkie zaznaczenie struktur bez logowania;
+        \item porównać adnotacje użytkownika z detekcjami modelu;
+        \item pokazać wynik w formie zrozumiałej na plakacie i telefonie;
+        \item jasno oddzielić demonstrację od zastosowania diagnostycznego.
+      \end{itemize}
+    }
+
+    \sectioncard{Dane i współpraca}{
+      Demo powstało dzięki współpracy klinicznej i wsparciu przy oznaczaniu
+      obrazów dermoskopowych.
+
+      \vspace{0.4em}
+      \textbf{Partner kliniczny:} Old Town Clinic\\
+      \textbf{Wsparcie merytoryczne:} Dr hab. n. med. Jacek Calik,
+      Lek. Karolina Gowans\\
+      \textbf{Opieka naukowa i techniczna:} Grzegorz Chodak,
+      Przemysław Dolata, Piotr Giedziun
+    }
+  \end{column}
+
+  \begin{column}{0.34\textwidth}
+    \sectioncard{Przepływ użytkownika}{
+      \begin{enumerate}
+        \item Użytkownik wybiera obraz przykładowy albo wgrywa własny.
+        \item Wybiera aktywne klasy struktur.
+        \item Zaznacza bounding boxy przez kliknięcie dwóch rogów.
+        \item Aplikacja porównuje adnotacje z predykcjami modelu.
+        \item Wynik pokazuje nakładkę, statystyki i feedback tekstowy.
+      \end{enumerate}
+    }
+
+    \begin{tcolorbox}[medicalcard,title={Miejsce na zrzut ekranu demo}]
+      \begin{tikzpicture}
+        \draw[rounded corners=18pt, fill=PaleAqua, draw=SoftAqua, line width=2pt]
+          (0,0) rectangle (\linewidth,18cm);
+        \node[align=center, text=MutedTeal, font=\Large\bfseries]
+          at (0.5\linewidth,9cm)
+          {Wstaw tutaj screenshot aplikacji\\
+          \texttt{\textbackslash includegraphics[width=\textbackslash linewidth]\{demo-screenshot.png\}}};
+      \end{tikzpicture}
+    \end{tcolorbox}
+
+    \sectioncard{Model i porównanie}{
+      Model detekcji działa jako zewnętrzny endpoint Modal.
+      Konfiguracja obejmuje wieloklasową detekcję z RF-DETR + SAHI,
+      osobnymi progami pewności oraz łączeniem predykcji.
+
+      \vspace{0.4em}
+      Porównanie wykorzystuje IoU dla bounding boxów i rozdziela wynik na:
+      dopasowania, adnotacje użytkownika bez zgodnej predykcji oraz predykcje
+      modelu bez zgodnej adnotacji użytkownika.
+    }
+  \end{column}
+
+  \begin{column}{0.30\textwidth}
+    \sectioncard{Co pokazujemy?}{
+      \metricbox{5}{klas struktur}{konfigurowalny zestaw widoczny dla użytkownika}
+      \vspace{0.5em}
+      \metricbox{0}{logowania}{publiczny dostęp z QR kodu}
+      \vspace{0.5em}
+      \metricbox{1}{interaktywny przepływ}{upload, adnotacja, porównanie, feedback}
+    }
+
+    \sectioncard{Najważniejsze elementy XAI}{
+      \begin{itemize}
+        \item \textbf{Nakładka wizualna:} linie użytkownika i modelu są rozdzielone.
+        \item \textbf{Statystyki:} liczba dopasowań i rozbieżności jest jawna.
+        \item \textbf{Feedback:} opisuje różnice językiem edukacyjnym.
+        \item \textbf{Kontrola klas:} użytkownik wybiera, które struktury są analizowane.
+      \end{itemize}
+    }
+
+    \sectioncard{Ograniczenia}{
+      \begin{itemize}
+        \item Demo nie jest narzędziem diagnostycznym.
+        \item Wynik zależy od jakości obrazu i wybranych klas.
+        \item Porównanie bounding boxów upraszcza złożoną ocenę kliniczną.
+        \item Feedback tekstowy ma charakter edukacyjny, nie medyczny.
+      \end{itemize}
+    }
+
+    \sectioncard{Zespół}{
+      Marcel Masiukiewicz \quad
+      Szymon Szafraniec \quad
+      Bartłomiej Ruszaj \quad
+      Marcin Tkocz
+
+      \vspace{0.5em}
+      {\color{MutedTeal}Projekt przygotowany jako publiczna prezentacja i demo
+      funkcjonalności na AI Forum 2026.}
+    }
+  \end{column}
+\end{columns}
+
+\vfill
+\begin{tcolorbox}[
+  enhanced,
+  colback=PaleAqua,
+  colframe=PaleAqua,
+  arc=12mm,
+  boxrule=0pt,
+  width=\textwidth,
+  left=16mm,
+  right=16mm,
+  top=8mm,
+  bottom=8mm
+]
+  \begin{columns}[T,totalwidth=\textwidth]
+    \begin{column}{0.74\textwidth}
+      {\Large\bfseries\color{DeepTeal}Przetestuj demo na telefonie}\\
+      {\color{MutedTeal}
+      Zeskanuj QR kod, wybierz przykładowe zdjęcie i porównaj swoje adnotacje
+      z detekcjami modelu.}
+    \end{column}
+    \begin{column}{0.22\textwidth}
+      \RaggedLeft
+      {\Large\bfseries\color{DarkTeal}\faIcon{globe}\ \texttt{\posterurl}}
+    \end{column}
+  \end{columns}
+\end{tcolorbox}
+
+\end{frame}
+\end{document}
