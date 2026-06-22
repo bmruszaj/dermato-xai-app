@@ -160,10 +160,7 @@ export function ComparisonOverlay({
       />
       {/* Legend */}
       <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-[#4c7372] text-xs">
-        <LegendItem
-          color="#3b82f6"
-          label="Adnotacje użytkownika (inne klasy)"
-        />
+        <LegendItem color="#3b82f6" label="Anotacje użytkownika (inne klasy)" />
         <LegendItem
           color="#22c55e"
           label="Yellow globules użytkownika — dopasowane"

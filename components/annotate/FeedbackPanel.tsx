@@ -210,7 +210,7 @@ export function FeedbackPanel({
 
             {/* Bbox counter */}
             <span className="font-medium text-[#4c7372] text-xs tabular-nums">
-              {bboxCount.visible} z {bboxCount.total} adnotacji widocznych
+              {bboxCount.visible} z {bboxCount.total} anotacji widocznych
             </span>
 
             {/* Keyboard hint */}
@@ -378,7 +378,7 @@ export function FeedbackPanel({
           onClick={onAdjust}
           type="button"
         >
-          Popraw adnotacje
+          Popraw anotacje
         </button>
         <button
           className="flex-1 rounded-full bg-[#5fb7b9] px-4 py-2.5 font-bold text-sm text-white shadow-[0_12px_30px_rgba(95,183,185,0.3)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5fb7b9]"
@@ -488,7 +488,7 @@ function ComparisonStatsInteractive({
           </span>
         </div>
         <div className="flex justify-between">
-          <span>Porównywane adnotacje człowieka</span>
+          <span>Porównywane anotacje człowieka</span>
           <span className="font-medium font-mono text-[#0d4a48] tabular-nums">
             {totalComparableUser}
           </span>

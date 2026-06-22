@@ -5,7 +5,7 @@ Publiczna wizytówka i demo projektu `Dermatoskopia wyjaśnialna` przygotowane n
 Strona ma dwa cele:
 
 - krótko wyjaśnić problem, rozwiązanie i efekt projektu;
-- pozwolić każdemu uruchomić demo adnotacji dermoskopowych bez logowania.
+- pozwolić każdemu uruchomić demo anotacji dermoskopowych bez logowania.
 
 ## Demo
 
@@ -13,7 +13,7 @@ Demo pozwala:
 
 - wybrać syntetyczny obraz przykładowy albo wgrać własny obraz PNG/JPG/WEBP;
 - narysować bounding boxy dla dostępnych struktur dermoskopowych;
-- porównać adnotacje użytkownika z detekcjami modeli RF-DETR + SAHI uruchamianych na Modal;
+- porównać anotacje użytkownika z detekcjami modeli RF-DETR + SAHI uruchamianych na Modal;
 - zobaczyć nakładkę, statystyki i edukacyjny feedback tekstowy.
 
 To narzędzie badawczo-edukacyjne. Nie stawia diagnozy i nie zastępuje konsultacji lekarskiej.

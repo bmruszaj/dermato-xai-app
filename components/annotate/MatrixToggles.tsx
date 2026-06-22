@@ -90,7 +90,7 @@ export function MatrixToggles({
                 <span>Człowiek</span>
                 <span className="text-[10px] opacity-60">── ciągła</span>
                 <input
-                  aria-label="Pokaż wszystkie adnotacje człowieka"
+                  aria-label="Pokaż wszystkie anotacje człowieka"
                   checked={allHumanOn}
                   className="cursor-pointer accent-[#5fb7b9]"
                   onChange={(e) => {
@@ -105,7 +105,7 @@ export function MatrixToggles({
                 <span>Model AI</span>
                 <span className="text-[10px] opacity-60">╌╌ przeryw.</span>
                 <input
-                  aria-label="Pokaż wszystkie adnotacje modelu AI"
+                  aria-label="Pokaż wszystkie anotacje modelu AI"
                   checked={allModelOn}
                   className="cursor-pointer accent-[#5fb7b9]"
                   onChange={(e) => {

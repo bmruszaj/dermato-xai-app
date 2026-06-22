@@ -44,7 +44,7 @@ export function buildFeedbackPrompt(result: ComparisonResult): string {
   const totalModel = result.matched.length + result.modelOnlyYellow.length;
 
   const labelLines = ANNOTATION_LABELS.map(
-    (label) => `  - ${label}: ${counts[label]} adnotacje`
+    (label) => `  - ${label}: ${counts[label]} anotacje`
   ).join("\n");
 
   const matchedLines =
@@ -52,7 +52,7 @@ export function buildFeedbackPrompt(result: ComparisonResult): string {
       ? result.matched
           .map(
             (m, i) =>
-              `  ${i + 1}. "${m.userBox.label}": pole użytkownika pokrywa się z detekcją modelu (IoU = ${(m.iou * 100).toFixed(1)}%, pewność modelu = ${(m.modelBox.confidence * 100).toFixed(1)}%)`
+              `  ${i + 1}. "${m.userBox.label}": anotacja użytkownika pokrywa się z detekcją modelu (IoU = ${(m.iou * 100).toFixed(1)}%, pewność modelu = ${(m.modelBox.confidence * 100).toFixed(1)}%)`
           )
           .join("\n")
       : "  Brak dopasowań.";
@@ -62,7 +62,7 @@ export function buildFeedbackPrompt(result: ComparisonResult): string {
       ? result.userOnlyYellow
           .map(
             (box, i) =>
-              `  ${i + 1}. Użytkownik zaznaczył "${box.label}", ale model nie wykrył tam zmiany.`
+              `  ${i + 1}. Użytkownik zaznaczył "${box.label}", ale nie ma tam dopasowanej detekcji modelu.`
           )
           .join("\n")
       : "  Brak.";
@@ -72,46 +72,48 @@ export function buildFeedbackPrompt(result: ComparisonResult): string {
       ? result.modelOnlyYellow
           .map(
             (p, i) =>
-              `  ${i + 1}. Model wykrył "${p.label}" z pewnością ${(p.confidence * 100).toFixed(1)}%, ale użytkownik jej nie zaznaczył.`
+              `  ${i + 1}. Model wykrył "${p.label}" z pewnością ${(p.confidence * 100).toFixed(1)}%, bez dopasowanej anotacji użytkownika.`
           )
           .join("\n")
       : "  Brak.";
 
-  return `Jesteś asystentem edukacyjnym dla studentów dermatologii. Twoim zadaniem jest ocena adnotacji bounding-box wykonanych przez studenta na obrazie dermoskopowym i udzielenie konstruktywnego feedbacku edukacyjnego w języku polskim.
+  return `Jesteś asystentem edukacyjnym wspierającym naukę anotacji obrazów dermoskopowych. Twoim zadaniem jest przygotowanie krótkiej informacji zwrotnej w języku polskim na podstawie porównania anotacji użytkownika z wynikiem modelu detekcyjnego.
+
+Nie traktuj wyniku modelu jako pewnej prawdy klinicznej. Model jest punktem odniesienia w demonstracji i może popełniać błędy. Nie stawiaj diagnozy i nie sugeruj decyzji klinicznych.
 
 ## Kontekst zadania
 
-Student miał za zadanie zaznaczyć na obrazie dermoskopowym zmiany skórne przy użyciu bounding-boxów i przypisać im jedną z dostępnych klas:
+Użytkownik zaznaczał struktury dermoskopowe przy użyciu prostokątów bounding-box i przypisywał im jedną z dostępnych etykiet:
 ${ANNOTATION_LABELS.map((label) => `- ${label}`).join("\n")}
 
-Model AI (RF-DETR + SAHI) zwraca detekcje dla aktualnie udostępnionych klas. Porównanie dotyczy par o tej samej etykiecie.
+Model detekcyjny RF-DETR + SAHI zwraca detekcje dla aktualnie udostępnionych klas. Porównanie dotyczy tylko par o tej samej etykiecie i IoU powyżej przyjętego progu.
 
-## Adnotacje studenta
+## Anotacje użytkownika
 
-Łączna liczba adnotacji: ${totalUser}
+Łączna liczba anotacji: ${totalUser}
 ${labelLines}
 
-## Wyniki porównania z modelem AI
+## Porównanie z modelem
 
 Liczba detekcji modelu: ${totalModel}
-Liczba porównywanych adnotacji studenta: ${result.matched.length + result.userOnlyYellow.length}
+Liczba porównywanych anotacji użytkownika: ${result.matched.length + result.userOnlyYellow.length}
 
-### ✅ Poprawnie zidentyfikowane (pokrywają się z modelem):
+### Zgodne z wynikiem modelu
 ${matchedLines}
 
-### ❌ Zaznaczone przez studenta, ale NIE wykryte przez model (możliwe fałszywe pozytywy):
+### Zaznaczone tylko przez użytkownika
 ${userOnlyLines}
 
-### ⚠️ Wykryte przez model, ale POMINIĘTE przez studenta (możliwe pominięcia):
+### Wykryte tylko przez model
 ${modelOnlyLines}
 
 ## Zadanie dla asystenta
 
-Na podstawie powyższych danych wygeneruj edukacyjny feedback w języku polskim podzielony na trzy sekcje:
+Na podstawie powyższych danych napisz zwięzłą informację zwrotną w języku polskim. Podziel odpowiedź na trzy sekcje:
 
-1. **Co zostało wykonane poprawnie** — pochwal studenta za trafne adnotacje, podaj konkretne liczby.
-2. **Co wymaga poprawy** — wskaż pominięcia i możliwe błędy, wyjaśnij dlaczego są ważne klinicznie.
-3. **Wskazówki na przyszłość** — daj 2-3 konkretne porady jak poprawić umiejętności adnotacji dermoskopowej.
+1. **Zgodność z modelem** — podsumuj, które anotacje pokrywają się z wynikiem modelu. Podaj liczby, ale nie przedstawiaj modelu jako pewnej prawdy klinicznej.
+2. **Różnice względem modelu** — wskaż anotacje obecne tylko po stronie użytkownika oraz detekcje obecne tylko po stronie modelu. Opisz je neutralnie.
+3. **Wskazówki do dalszej pracy** — podaj 2–3 konkretne wskazówki dotyczące dokładności zaznaczania struktur dermoskopowych.
 
-Bądź konkretny, edukacyjny i wspierający. Nie podawaj informacji niezwiązanych z dermoskopią.`;
+Styl: prosty, rzeczowy i akademicki. Unikaj przesadnych pochwał, ocen klinicznych, diagnoz oraz informacji niezwiązanych z dermoskopią.`;
 }

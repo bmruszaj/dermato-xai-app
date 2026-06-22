@@ -11,7 +11,7 @@ export const DEMO_IMAGES: DemoImage[] = [
     id: "isic-68-0021681",
     title: "ISIC 68",
     src: "/demo-images/ISIC_68_0021681.jpg",
-    description: "Obraz dermoskopowy do szybkiego testu adnotacji.",
+    description: "Obraz dermoskopowy do szybkiego testu anotacji.",
     credit: "Eksport projektu Label Studio.",
   },
   {
@@ -39,7 +39,7 @@ export const DEMO_IMAGES: DemoImage[] = [
     id: "uuid-3ae58bd9",
     title: "Przykład 5",
     src: "/demo-images/3ae58bd9-ae4e-42eb-9383-0581d7cf6bb2.jpg",
-    description: "Dodatkowy obraz dermoskopowy do testowania adnotacji.",
+    description: "Dodatkowy obraz dermoskopowy do testowania anotacji.",
     credit: "Eksport projektu Label Studio.",
   },
 ];

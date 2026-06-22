@@ -6,7 +6,7 @@ test.describe("Public release flow", () => {
 
     await expect(
       page.getByRole("heading", {
-        name: "Wyjaśnialne wsparcie adnotacji obrazów dermoskopowych",
+        name: "Platforma edukacyjna do anotacji obrazów dermoskopowych",
       })
     ).toBeVisible();
     await expect(
@@ -39,6 +39,6 @@ test.describe("Public release flow", () => {
     await expect(
       page.getByRole("heading", { name: "Adnotuj obraz" })
     ).toBeVisible();
-    await expect(page.getByText("Zatwierdź adnotacje")).toBeVisible();
+    await expect(page.getByText("Zatwierdź anotacje")).toBeVisible();
   });
 });

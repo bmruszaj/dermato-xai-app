@@ -18,7 +18,7 @@
   - upload obrazu dermoskopowego;
   - ręczne rysowanie bboxów dla pięciu klas;
   - predykcje modelu RF-DETR przez `/api/predict`;
-  - porównanie adnotacji użytkownika z predykcjami;
+  - porównanie anotacji użytkownika z predykcjami;
   - feedback tekstowy przez `/api/feedback`.
 - Logowanie jest głęboko wpięte:
   - `proxy.ts` chroni `/`, `/annotate` i `/api/:path*`;
@@ -49,13 +49,13 @@
 - Demo ma działać bez logowania:
   - użytkownik wybiera przykładowy obraz albo wgrywa własny;
   - aplikacja nie zapisuje obrazu ani danych użytkownika po stronie projektu;
-  - wynik pokazuje porównanie adnotacji użytkownika z modelem oraz feedback.
+  - wynik pokazuje porównanie anotacji użytkownika z modelem oraz feedback.
 
 ## Plan
 
 1. Ustalić finalną treść wizytówki
    - Przygotować krótkie teksty do sekcji landing page: problem, rozwiązanie, demo, rezultaty, ograniczenia, zespół.
-   - Dodać uczciwy opis zakresu modelu: model porównuje głównie klasę `Yellow globules (ulcer)`, a pozostałe klasy służą jako kontekst adnotacji.
+   - Dodać uczciwy opis zakresu modelu: model porównuje głównie klasę `Yellow globules (ulcer)`, a pozostałe klasy służą jako kontekst anotacji.
    - Dodać disclaimer prywatności i medyczny: demo edukacyjne/badawcze, nie diagnozuje, nie zastępuje konsultacji lekarskiej, nie należy przesyłać danych identyfikujących pacjenta.
 
 2. Zmienić `/` z redirectu na publiczną wizytówkę
@@ -77,7 +77,7 @@
    - Ustalić maksymalny rozmiar uploadu dla demo, np. 5-10 MB.
    - Dodać przyjazny komunikat, gdy model/CLARIN jest niedostępny lub zimny start trwa długo.
    - Rozważyć prosty rate limit lub BotID na endpointach publicznych, aby demo nie zostało przypadkowo przeciążone.
-   - Nie zapisywać przesyłanych obrazów, adresów email, sesji ani historii adnotacji.
+   - Nie zapisywać przesyłanych obrazów, adresów email, sesji ani historii anotacji.
 
 5. Wymusić white mode only
    - Usunąć `ThemeProvider` i zależność od `next-themes`, jeśli nie będzie już używana.
@@ -124,7 +124,7 @@
      - wejście z publicznego URL-a;
      - kliknięcie CTA;
      - wybór domyślnego obrazu;
-     - ręczna adnotacja;
+     - ręczna anotacja;
      - predykcja modelu;
      - feedback lub fallback bez feedbacku;
      - test na telefonie przez QR.

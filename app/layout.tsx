@@ -14,11 +14,11 @@ export const metadata: Metadata = {
     template: "%s | Dermato XAI",
   },
   description:
-    "Publiczna wizytówka i demo projektu Dermato XAI: edukacyjne adnotacje dermoskopowe z porównaniem do modeli AI.",
+    "Strona projektu i demonstracja systemu Dermato XAI: edukacyjne anotacje dermoskopowe z porównaniem do wyniku modelu.",
   openGraph: {
     title: "Dermato XAI — dermatoskopia wyjaśnialna",
     description:
-      "Wizytówka projektu AI Forum 2026 oraz demo adnotacji dermoskopowych ze wsparciem modeli AI.",
+      "Strona projektu AI Forum 2026 oraz demonstracja anotacji dermoskopowych z porównaniem do wyniku modelu.",
     type: "website",
   },
 };

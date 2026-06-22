@@ -56,7 +56,7 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
           <span className="font-medium font-mono text-[#0d4a48]">0.30</span>
         </div>
         <div className="flex justify-between">
-          <span>Łącznie adnotacji użytkownika (Yellow globules)</span>
+          <span>Łącznie anotacji użytkownika (Yellow globules)</span>
           <span className="font-medium font-mono text-[#0d4a48]">
             {totalUserYellow}
           </span>
@@ -161,7 +161,7 @@ export function ComparisonStats({ comparison }: ComparisonStatsProps) {
       {modelOnlyYellow.length > 0 && (
         <div className="space-y-2">
           <p className="font-bold text-[#4c7372] text-xs uppercase tracking-wide">
-            Detekcje modelu — brak adnotacji użytkownika
+            Detekcje modelu — brak anotacji użytkownika
           </p>
           <div className="overflow-hidden rounded-[1.25rem] border border-[#b9e2e1]">
             <table className="w-full text-xs">

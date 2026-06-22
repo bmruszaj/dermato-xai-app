@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useRef, useState } from "react";
 import type { AnnotatorHandle } from "@/components/annotate/AnnotationCanvas";
@@ -19,6 +20,7 @@ import {
   MODEL_CLASS,
   type ModelPrediction,
 } from "@/lib/annotate/types";
+import logoIcon from "../../../dermato-xai-icon-512.png";
 
 type MlStatus = "idle" | "loading" | "done" | "error";
 const DEFAULT_PREDICTION_LABELS: AnnotationLabel[] = [
@@ -343,14 +345,21 @@ export default function AnnotatePage() {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-[2rem] border border-[#b9e2e1] bg-white/90 px-4 py-4 shadow-[0_18px_55px_rgba(69,151,153,0.16)] backdrop-blur sm:px-6">
           <div className="flex items-center gap-3">
             <Link
-              className="flex size-12 items-center justify-center rounded-2xl bg-[#5fb7b9] font-bold text-white shadow-[0_10px_30px_rgba(95,183,185,0.35)]"
+              className="flex size-12 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-[0_10px_30px_rgba(95,183,185,0.35)]"
               href="/"
             >
-              DAI
+              <Image
+                alt="Logo DermatoAI"
+                className="size-full object-cover"
+                height={48}
+                priority
+                src={logoIcon}
+                width={48}
+              />
             </Link>
             <div>
               <h1 className="font-bold text-[#0d4a48] text-xl">
-                Adnotacja dermoskopowa
+                Anotacja dermoskopowa
               </h1>
               <p className="font-medium text-[#4c7372] text-sm">
                 Zaznacz struktury i porównaj wynik z modelem AI
@@ -423,7 +432,7 @@ export default function AnnotatePage() {
               {[
                 "Wybierz obraz",
                 "Zaznacz struktury",
-                "Zatwierdź adnotacje",
+                "Zatwierdź anotacje",
                 "Porównaj wynik",
               ].map((step, index) => (
                 <div className="flex items-center gap-3" key={step}>
@@ -477,8 +486,8 @@ export default function AnnotatePage() {
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div className="font-medium text-[#4c7372] text-sm">
                 {userAnnotations.length === 0
-                  ? "Brak adnotacji"
-                  : `${userAnnotations.length} adnotacj${userAnnotations.length === 1 ? "a" : "i"}`}
+                  ? "Brak anotacji"
+                  : `${userAnnotations.length} anotacj${userAnnotations.length === 1 ? "a" : "i"}`}
               </div>
               <div className="flex gap-3">
                 <button
@@ -494,7 +503,7 @@ export default function AnnotatePage() {
                   onClick={handleSubmit}
                   type="button"
                 >
-                  Zatwierdź adnotacje
+                  Zatwierdź anotacje
                 </button>
               </div>
             </div>

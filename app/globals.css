@@ -289,6 +289,15 @@ textarea:focus-visible {
   }
 }
 
+@keyframes tech-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
 @utility fade-up {
   animation: fade-up 0.25s var(--ease-spring) both;
 }
@@ -322,6 +331,11 @@ textarea:focus-visible {
 
 @utility composer-glow {
   animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.tech-marquee {
+  animation: tech-marquee 36s linear infinite !important;
+  will-change: transform;
 }
 
 .ProseMirror {

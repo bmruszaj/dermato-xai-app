@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { TechMarquee } from "@/components/tech-marquee";
 import { DEMO_IMAGES } from "@/lib/annotate/demoImages";
+import logoIcon from "../dermato-xai-icon-512.png";
 
 // Design direction: presentation-inspired medical teal, soft organic shapes,
 // rounded Quicksand typography, friendly education-first copy.
@@ -14,12 +16,12 @@ const projectFacts = [
 const demoSteps = [
   "Wybierz przykładowe zdjęcie albo wgraj własny obraz dermoskopowy.",
   "Zaznacz struktury dermoskopowe prostokątami i przypisz etykiety.",
-  "Porównaj swoje adnotacje z detekcjami modeli RF-DETR + SAHI.",
+  "Porównaj swoje anotacje z detekcjami modeli RF-DETR + SAHI.",
   "Przeczytaj edukacyjny feedback i przejrzyj różnice na nakładce.",
 ];
 
 const results = [
-  "Działający przepływ adnotacji obrazów dermoskopowych w przeglądarce.",
+  "Działający przepływ anotacji obrazów dermoskopowych w przeglądarce.",
   "Integracja z wieloklasowymi modelami detekcji uruchamianymi przez Modal.",
   "Interaktywne porównanie: kolor oznacza strukturę, linia ciągła człowieka, linia przerywana model.",
 ];
@@ -27,18 +29,18 @@ const results = [
 const benefits = [
   {
     icon: "01",
-    title: "Szybki start przy plakacie",
-    text: "Gotowe obrazy przykładowe pozwalają przejść demo bez szukania własnego materiału.",
+    title: "Materiały przykładowe",
+    text: "Dostępne obrazy przykładowe pozwalają rozpocząć demonstrację bez przygotowania własnego materiału.",
   },
   {
     icon: "02",
     title: "Czytelne porównanie",
-    text: "Nakładka rozdziela adnotacje człowieka i detekcje modelu, więc różnice są widoczne od razu.",
+    text: "Nakładka rozdziela anotacje użytkownika i detekcje modelu, co ułatwia porównanie wyników.",
   },
   {
     icon: "03",
-    title: "Bez kont i zbierania danych",
-    text: "Demo działa publicznie, bez logowania i bez budowania profilu użytkownika.",
+    title: "Bez logowania",
+    text: "Demonstracja jest dostępna publicznie i nie wymaga zakładania konta.",
   },
 ];
 
@@ -46,17 +48,17 @@ const faqs = [
   {
     question: "Czy to narzędzie stawia diagnozę?",
     answer:
-      "Nie. To demo edukacyjno-badawcze pokazujące porównanie adnotacji z modelem AI. Nie zastępuje lekarza ani decyzji klinicznych.",
+      "Nie. Jest to demonstracja edukacyjno-badawcza. Nie zastępuje lekarza ani decyzji klinicznych.",
   },
   {
     question: "Czy muszę się logować?",
     answer:
-      "Nie. Publiczna wersja działa bez konta, żeby każdy mógł wejść z QR-kodu i od razu zobaczyć demo.",
+      "Nie. Wersja publiczna działa bez konta i umożliwia bezpośrednie uruchomienie demonstracji.",
   },
   {
     question: "Czy mogę użyć własnego zdjęcia?",
     answer:
-      "Tak, ale nie przesyłaj obrazów zawierających dane identyfikujące pacjenta. Najbezpieczniejsza ścieżka na prezentacji to obrazy przykładowe.",
+      "Tak, ale nie należy przesyłać obrazów zawierających dane identyfikujące pacjenta. Do pierwszego uruchomienia zalecane są obrazy przykładowe.",
   },
   {
     question: "Jakie struktury obsługuje demo?",
@@ -129,7 +131,7 @@ const clinicalPartners = [
     image: "/landing/karolina-gowans.png",
     imageAlt: "Lek. Karolina Gowans",
     name: "Lek. Karolina Gowans",
-    role: "Adnotacje dermoskopowe i wsparcie przy oznaczaniu zdjęć",
+    role: "Anotacje dermoskopowe i wsparcie przy oznaczaniu zdjęć",
   },
 ];
 
@@ -137,6 +139,28 @@ const collaborationSupport = [
   "udostępnienie i konsultacja zbioru obrazów dermoskopowych",
   "oznaczone przykłady struktur wykorzystane w demonstracji",
   "wsparcie medyczne przy interpretacji i opisie ograniczeń projektu",
+];
+
+const grantResources = [
+  { label: "GPU A100", value: "20 000 h" },
+  { label: "HPC Storage", value: "5 000 GB" },
+];
+
+const technologies = [
+  { logo: "/tech/vercel.svg", name: "Vercel", role: "hosting i edge" },
+  { logo: "/tech/nextjs.svg", name: "Next.js", role: "aplikacja web" },
+  { logo: "/tech/react.svg", name: "React", role: "interfejs" },
+  {
+    logo: "/tech/typescript.svg",
+    name: "TypeScript",
+    role: "typowany frontend",
+  },
+  { logo: "/tech/tailwind.svg", name: "Tailwind CSS", role: "warstwa UI" },
+  { logo: "/tech/python.svg", name: "Python", role: "backend modeli" },
+  { logo: "/tech/fastapi.svg", name: "FastAPI", role: "API inferencji" },
+  { logo: "/tech/modal.svg", name: "Modal", role: "GPU inference" },
+  { logo: "/tech/postgresql.svg", name: "PostgreSQL", role: "baza danych" },
+  { logo: "/tech/drizzle.svg", name: "Drizzle ORM", role: "warstwa danych" },
 ];
 
 function EcgIcon() {
@@ -245,8 +269,15 @@ export default function RootPage() {
 
         <header className="relative z-10 mx-auto flex max-w-[1440px] items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="flex size-12 items-center justify-center rounded-2xl bg-[#5fb7b9] font-bold text-white shadow-[0_10px_30px_rgba(95,183,185,0.35)]">
-              DAI
+            <div className="flex size-12 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-[0_10px_30px_rgba(95,183,185,0.35)]">
+              <Image
+                alt="Logo DermatoAI"
+                className="size-full object-cover"
+                height={48}
+                priority
+                src={logoIcon}
+                width={48}
+              />
             </div>
             <div>
               <p className="font-bold text-[#0b7975]">DermatoAI</p>
@@ -259,7 +290,7 @@ export default function RootPage() {
             className="hidden rounded-full bg-[#5fb7b9] px-5 py-2.5 font-bold text-sm text-white shadow-[0_12px_30px_rgba(95,183,185,0.35)] transition-transform hover:-translate-y-0.5 sm:inline-flex"
             href="/annotate"
           >
-            Wypróbuj demo
+            Otwórz demonstrację
           </Link>
         </header>
 
@@ -289,16 +320,12 @@ export default function RootPage() {
               </div>
 
               <div className="rounded-[2.4rem] bg-[#5fb7b9] px-7 py-10 text-center text-white shadow-[0_24px_70px_rgba(69,151,153,0.35)] sm:px-10 lg:px-12 xl:px-16 xl:py-16">
-                <p className="font-bold text-white/85 text-sm uppercase tracking-[0.22em]">
-                  DermatoAI · przenieś tu zdjęcia
-                </p>
-                <h1 className="mx-auto mt-5 max-w-5xl text-balance font-bold text-4xl leading-tight sm:text-5xl xl:text-7xl">
-                  Wyjaśnialne wsparcie adnotacji obrazów dermoskopowych
+                <h1 className="mx-auto max-w-5xl text-balance font-bold text-4xl leading-tight sm:text-5xl xl:text-7xl">
+                  Platforma edukacyjna do anotacji obrazów dermoskopowych
                 </h1>
                 <p className="mx-auto mt-5 max-w-3xl font-medium text-lg text-white/90 leading-8">
-                  Publiczna wizytówka projektu oraz demo, w którym zaznaczasz
-                  struktury dermoskopowe i porównujesz je z odpowiedzią modelu
-                  AI.
+                  Strona projektu i demonstracja systemu, w której zaznaczasz
+                  struktury dermoskopowe i porównujesz je z wynikiem modelu.
                 </p>
 
                 <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -306,7 +333,7 @@ export default function RootPage() {
                     className="inline-flex min-w-48 items-center justify-center rounded-full bg-white px-7 py-3.5 font-bold text-[#0b7975] shadow-[0_12px_30px_rgba(13,74,72,0.18)] transition-transform hover:-translate-y-0.5"
                     href="/annotate"
                   >
-                    Wypróbuj demo
+                    Otwórz demonstrację
                   </Link>
                   <a
                     className="inline-flex min-w-48 items-center justify-center rounded-full border-2 border-white/80 px-7 py-3.5 font-bold text-white transition-colors hover:bg-white/15"
@@ -332,51 +359,37 @@ export default function RootPage() {
               </div>
             </div>
 
-            <div className="grid gap-3 text-center sm:grid-cols-2 xl:grid-cols-4">
-              {teamMembers.map((person) => (
+            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+              {[
+                ...teamMembers.map((person) => ({
+                  ...person,
+                  role: "Zespół projektowy",
+                })),
+                {
+                  linkedin:
+                    "https://www.linkedin.com/in/grzegorz-chodak-24b4426/",
+                  name: "dr hab. inż. Grzegorz Chodak",
+                  role: "Opiekun naukowy",
+                },
+                ...scientificAdvisors,
+              ].map((person) => (
                 <a
                   aria-label={`LinkedIn: ${person.name}`}
-                  className="inline-flex items-center justify-center gap-2 rounded-3xl bg-[#eef8f8] px-4 py-3 font-semibold text-[#0d4a48] shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-[#dff3f3]"
+                  className="flex min-h-24 items-center justify-between gap-4 rounded-3xl bg-[#eef8f8] px-5 py-4 text-left shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-[#dff3f3]"
                   href={person.linkedin}
                   key={person.name}
                   rel="noreferrer"
                   target="_blank"
                 >
-                  <span>{person.name}</span>
-                  <span className="inline-flex size-7 items-center justify-center rounded-full bg-[#0b7975] text-white">
-                    <LinkedInIcon />
-                  </span>
-                </a>
-              ))}
-            </div>
-
-            <a
-              className="mx-auto inline-flex items-center justify-center gap-3 rounded-3xl bg-[#eef8f8] px-5 py-3 font-semibold text-[#0d4a48] text-lg shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-[#dff3f3]"
-              href="https://www.linkedin.com/in/grzegorz-chodak-24b4426/"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <span>Opiekun naukowy: dr hab. inż. Grzegorz Chodak</span>
-              <span className="inline-flex size-7 items-center justify-center rounded-full bg-[#0b7975] text-white">
-                <LinkedInIcon />
-              </span>
-            </a>
-            <div className="mx-auto grid max-w-2xl gap-3">
-              {scientificAdvisors.map((advisor) => (
-                <a
-                  className="inline-flex items-center justify-center gap-3 rounded-3xl bg-[#eef8f8] px-4 py-3 font-semibold text-[#0d4a48] shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-[#dff3f3]"
-                  href={advisor.linkedin}
-                  key={advisor.name}
-                  rel="noreferrer"
-                  target="_blank"
-                >
                   <span>
-                    {advisor.name}
-                    <span className="block font-medium text-[#4c7372] text-sm">
-                      {advisor.role}
+                    <span className="block font-bold text-[#0d4a48]">
+                      {person.name}
+                    </span>
+                    <span className="mt-1 block font-medium text-[#4c7372] text-sm leading-5">
+                      {person.role}
                     </span>
                   </span>
-                  <span className="inline-flex size-7 items-center justify-center rounded-full bg-[#0b7975] text-white">
+                  <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-[#0b7975] text-white">
                     <LinkedInIcon />
                   </span>
                 </a>
@@ -408,12 +421,12 @@ export default function RootPage() {
               Podgląd materiału
             </p>
             <h2 className="mt-3 max-w-xl font-bold text-3xl tracking-tight">
-              Realne przykłady są już w demo
+              Przykładowe obrazy są dostępne w demonstracji
             </h2>
             <p className="mt-4 text-[#4c7372] leading-7">
               Użytkownik może zacząć od obrazów z eksportu projektu albo wgrać
-              własny plik. To skraca ścieżkę przy stoisku i pozwala od razu
-              pokazać porównanie z modelem.
+              własny plik. Pozwala to od razu przejść do porównania z wynikiem
+              modelu.
             </p>
             <Link
               className="mt-6 inline-flex rounded-full bg-[#5fb7b9] px-6 py-3 font-bold text-white shadow-[0_12px_30px_rgba(95,183,185,0.3)] transition-transform hover:-translate-y-0.5"
@@ -454,6 +467,31 @@ export default function RootPage() {
         </div>
       </section>
 
+      <section className="overflow-hidden bg-white px-5 py-16 sm:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid items-end gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+            <div>
+              <p className="font-bold text-[#5fb7b9] text-sm">Technologie</p>
+              <h2 className="mt-3 max-w-2xl font-bold text-3xl tracking-tight">
+                Technologie wykorzystane w projekcie
+              </h2>
+            </div>
+            <p className="text-[#4c7372] leading-7">
+              Frontend działa na Next.js i Vercel, a część modelowa korzysta z
+              Pythona, FastAPI oraz Modala. Poniżej najważniejsze technologie
+              widoczne w repozytorium i konfiguracji projektu.
+            </p>
+          </div>
+
+          <div className="relative mt-10 overflow-hidden rounded-[2rem] border border-[#b9e2e1] bg-[#f7ffff] py-5 shadow-[0_14px_40px_rgba(69,151,153,0.12)]">
+            <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#f7ffff] to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#f7ffff] to-transparent" />
+
+            <TechMarquee technologies={technologies} />
+          </div>
+        </div>
+      </section>
+
       <section className="bg-[#f1fbfb] px-5 py-16 sm:px-8" id="o-projekcie">
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-3">
           <article className="rounded-[2rem] border border-[#b9e2e1] bg-white p-7 shadow-[0_14px_40px_rgba(69,151,153,0.12)]">
@@ -465,7 +503,7 @@ export default function RootPage() {
               W obrazach dermoskopowych drobne wzorce mogą mieć znaczenie
               diagnostyczne, ale ich ręczna anotacja jest czasochłonna i wymaga
               doświadczenia. Projekt bada, jak modele detekcji mogą wspierać
-              edukację i przegląd takich adnotacji.
+              edukację i przegląd takich anotacji.
             </p>
           </article>
 
@@ -497,6 +535,69 @@ export default function RootPage() {
         </div>
       </section>
 
+      <section className="bg-[#f7ffff] px-5 py-16 sm:px-8">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p className="font-bold text-[#5fb7b9] text-sm">Grant PLGrid</p>
+            <h2 className="mt-3 max-w-2xl font-bold text-3xl tracking-tight">
+              Projekt korzysta z infrastruktury PLGrid
+            </h2>
+            <p className="mt-4 text-[#4c7372] leading-7">
+              Rozwój i eksperymentalna weryfikacja systemu DermatoAI są
+              wspierane przez grant obliczeniowy PLGrid nr PLG/2025/018780,
+              realizowany z wykorzystaniem zasobów ACK Cyfronet AGH.
+            </p>
+          </div>
+
+          <article className="rounded-[2rem] border border-[#b9e2e1] bg-white p-7 shadow-[0_14px_40px_rgba(69,151,153,0.12)]">
+            <div className="mb-6 inline-flex rounded-[1.5rem] border border-[#b9e2e1] bg-white px-5 py-4 shadow-sm">
+              <Image
+                alt="Logo PLGrid"
+                className="h-10 w-auto object-contain"
+                height={48}
+                src="/landing/plgrid-logo.svg"
+                width={180}
+              />
+            </div>
+
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <p className="font-bold text-[#0b7975] text-sm uppercase tracking-[0.18em]">
+                  PLG/2025/018780
+                </p>
+                <h3 className="mt-3 font-bold text-2xl text-[#0d4a48]">
+                  plgdermatoai
+                </h3>
+                <p className="mt-3 text-[#4c7372] leading-7">
+                  Opracowanie i eksperymentalna weryfikacja wyjaśnialnego
+                  systemu opartego na sieciach neuronowych do automatycznej
+                  analizy obrazów dermatoskopowych.
+                </p>
+              </div>
+              <span className="inline-flex shrink-0 rounded-full bg-[#e4f5f5] px-4 py-2 font-bold text-[#0b7975] text-sm">
+                Grant PLGrid
+              </span>
+            </div>
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              {grantResources.map((resource) => (
+                <div
+                  className="rounded-[1.5rem] bg-[#eef8f8] p-4"
+                  key={resource.label}
+                >
+                  <p className="font-semibold text-[#4c7372] text-sm">
+                    {resource.label}
+                  </p>
+                  <p className="mt-1 font-bold text-2xl text-[#0d4a48]">
+                    {resource.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section className="bg-white px-5 py-16 sm:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="grid items-center gap-8 lg:grid-cols-[0.9fr_1.1fr]">
@@ -505,14 +606,13 @@ export default function RootPage() {
                 Współpraca i opieka nad projektem
               </p>
               <h2 className="mt-3 max-w-2xl font-bold text-3xl tracking-tight">
-                Dane, adnotacje i konsultacje powstały dzięki współpracy
+                Dane, anotacje i konsultacje powstały dzięki współpracy
                 ekspertów
               </h2>
               <p className="mt-4 text-[#4c7372] leading-7">
-                Projekt łączy kompetencje techniczne, przetwarzanie obrazów
-                medycznych oraz praktyczną wiedzę kliniczną. Dzięki tej
-                współpracy demo pokazuje realny przepływ pracy na obrazach
-                dermoskopowych, a nie tylko abstrakcyjny przykład algorytmu.
+                Projekt powstał we współpracy zespołu technicznego i
+                klinicznego. Demonstracja opiera się na obrazach dermoskopowych
+                oraz konsultacji merytorycznej.
               </p>
             </div>
 
@@ -648,10 +748,10 @@ export default function RootPage() {
         <div className="mx-auto max-w-6xl">
           <div className="max-w-3xl">
             <p className="font-bold text-[#5fb7b9] text-sm">
-              Najważniejsze korzyści
+              Cechy demonstracji
             </p>
             <h2 className="mt-3 font-bold text-3xl tracking-tight">
-              Demo ma być zrozumiałe w kilka minut
+              Demonstracja jest prosta w obsłudze
             </h2>
           </div>
           <div className="mt-8 grid gap-5 lg:grid-cols-3">
@@ -678,7 +778,7 @@ export default function RootPage() {
           <div>
             <p className="font-bold text-[#5fb7b9] text-sm">Jak działa demo</p>
             <h2 className="mt-3 font-bold text-3xl tracking-tight">
-              Cztery kroki przy plakacie albo po wydarzeniu
+              Jak korzystać z demonstracji
             </h2>
             <p className="mt-4 text-[#4c7372] leading-7">
               Demo jest publiczne i nie wymaga konta. Można użyć przykładowego
@@ -708,7 +808,7 @@ export default function RootPage() {
           <div className="max-w-3xl">
             <p className="font-bold text-[#0b7975] text-sm">Co pokazujemy</p>
             <h2 className="mt-3 font-bold text-3xl tracking-tight">
-              Namacalny efekt projektu
+              Zakres demonstracji
             </h2>
           </div>
           <div className="mt-8 grid gap-4 lg:grid-cols-3">
@@ -737,11 +837,10 @@ export default function RootPage() {
           <div>
             <p className="font-bold text-[#5fb7b9] text-sm">FAQ</p>
             <h2 className="mt-3 font-bold text-3xl tracking-tight">
-              Najczęstsze pytania przed uruchomieniem demo
+              Najczęstsze pytania
             </h2>
             <p className="mt-4 text-[#4c7372] leading-7">
-              Krótkie odpowiedzi pomagają osobom technicznym i nietechnicznym
-              szybko zrozumieć zakres projektu.
+              Krótkie odpowiedzi ułatwiają zrozumienie zakresu demonstracji.
             </p>
           </div>
           <div className="space-y-3">
@@ -766,20 +865,20 @@ export default function RootPage() {
       <section className="bg-[#5fb7b9] px-5 py-16 text-white sm:px-8">
         <div className="mx-auto max-w-5xl rounded-[2rem] border border-white/35 bg-white/14 p-8 text-center shadow-[0_24px_70px_rgba(13,74,72,0.18)] backdrop-blur sm:p-12">
           <p className="font-bold text-white/80 text-sm uppercase tracking-[0.22em]">
-            Gotowe do pokazania przy plakacie
+            Demonstracja projektu
           </p>
           <h2 className="mx-auto mt-4 max-w-3xl font-bold text-4xl tracking-tight">
-            Uruchom demo i sprawdź własne adnotacje
+            Otwórz demonstrację i porównaj anotacje
           </h2>
           <p className="mx-auto mt-4 max-w-2xl font-medium text-white/90 leading-8">
-            Najszybsza ścieżka: wybierz obraz przykładowy, zaznacz struktury i
-            porównaj wynik z modelem.
+            Można wybrać obraz przykładowy, zaznaczyć struktury i porównać wynik
+            z modelem.
           </p>
           <Link
             className="mt-8 inline-flex rounded-full bg-white px-8 py-4 font-bold text-[#0b7975] shadow-[0_12px_30px_rgba(13,74,72,0.2)] transition-transform hover:-translate-y-0.5"
             href="/annotate"
           >
-            Przejdź do demo
+            Otwórz demonstrację
           </Link>
         </div>
       </section>
@@ -789,8 +888,8 @@ export default function RootPage() {
           <div>
             <p className="font-bold text-xl">DermatoAI</p>
             <p className="mt-3 max-w-md text-white/75 leading-7">
-              Publiczna wizytówka i demo projektu Dermatoskopia wyjaśnialna na
-              AI Forum 2026.
+              Strona projektu i demonstracja systemu przygotowane na AI Forum
+              2026.
             </p>
           </div>
           <div>
@@ -807,7 +906,7 @@ export default function RootPage() {
             <ul className="mt-3 space-y-2">
               <li>
                 <Link className="text-white/75 hover:text-white" href="/">
-                  Wizytówka
+                  Strona główna
                 </Link>
               </li>
               <li>
@@ -815,7 +914,7 @@ export default function RootPage() {
                   className="text-white/75 hover:text-white"
                   href="/annotate"
                 >
-                  Demo
+                  Demonstracja
                 </Link>
               </li>
             </ul>

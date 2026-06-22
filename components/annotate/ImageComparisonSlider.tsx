@@ -117,7 +117,7 @@ export function ImageComparisonSlider({
 
       {/* Drag handle */}
       <button
-        aria-label="Przeciągnij aby porównać adnotacje człowieka i modelu"
+        aria-label="Przeciągnij aby porównać anotacje człowieka i modelu"
         className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 flex h-8 w-8 cursor-col-resize items-center justify-center rounded-full border border-[#b9e2e1] bg-white shadow-md transition-transform hover:scale-110 focus-visible:ring-2 focus-visible:ring-[#5fb7b9]"
         onMouseDown={startDrag}
         onTouchStart={startDrag}
