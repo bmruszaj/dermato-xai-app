@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import NextImage from "next/image";
 import Link from "next/link";
 import React, { useCallback, useRef, useState } from "react";
 import type { AnnotatorHandle } from "@/components/annotate/AnnotationCanvas";
@@ -348,7 +348,7 @@ export default function AnnotatePage() {
               className="flex size-12 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-[0_10px_30px_rgba(95,183,185,0.35)]"
               href="/"
             >
-              <Image
+              <NextImage
                 alt="Logo DermatoAI"
                 className="size-full object-cover"
                 height={48}
